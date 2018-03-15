@@ -4,5 +4,8 @@
       <h2>嘿嘿嘿嘿出来啊啊啊啊</h2>
   </div>
 </template>
+<script>
+  export default {}
+</script>
 <style scoped>
 </style>
