@@ -12,6 +12,10 @@ export default {
 </script>
 
 <style>
+[v-cloak] {
+  display: none;
+}
+
 .container {
   height: 100%;
   display: flex;
