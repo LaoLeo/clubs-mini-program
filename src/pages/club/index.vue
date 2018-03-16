@@ -18,16 +18,16 @@
     },
 
     methods: {
-      changeTitle() {
-        wx.setNavigationBarTitle({
-          title: '社团列表'
-        })
-      }
-    },
-
-    created() {
-      this.changeTitle()
+      // changeTitle() {
+      //   wx.setNavigationBarTitle({
+      //     title: '社团列表'
+      //   })
+      // }
     }
+
+    // created() {
+    //   this.changeTitle()
+    // }
 
   }
 </script>
