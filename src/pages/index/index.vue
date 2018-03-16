@@ -21,15 +21,7 @@
     methods: {
       add() {
         store.commit(type.ADDCLUB)
-      },
-      changeTitle() {
-        wx.setNavigationBarTitle({
-          title: '首页'
-        })
       }
-    },
-    created() {
-      this.changeTitle()
     }
   }
 </script>

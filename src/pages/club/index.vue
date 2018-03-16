@@ -15,20 +15,7 @@
       return {
 
       }
-    },
-
-    methods: {
-      changeTitle() {
-        wx.setNavigationBarTitle({
-          title: '社团列表'
-        })
-      }
-    },
-
-    created() {
-      this.changeTitle()
     }
-
   }
 </script>
 <style scoped>
@@ -47,6 +34,6 @@
   .list_item{
     width:100%;
     height:100px;
-  border:1px solid red;
+    border:1px solid red;
   }
 </style>
