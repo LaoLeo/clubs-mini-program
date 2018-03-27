@@ -23,6 +23,7 @@
         store.commit(type.ADDCLUB)
       }
     }
+
   }
 </script>
 
