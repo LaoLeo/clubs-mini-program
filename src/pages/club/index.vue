@@ -1,6 +1,6 @@
 <template>
   <div class="lists">
-   <div class="list_item" v-for="item in list">
+   <div class="list_item" v-for="item in list" @click='toDetail(item.id)'>
         <div class="left">
            <div class="club_img" :style="{backgroundImage:'url('+item.imgsrc+')'}"></div>
         </div>
@@ -23,51 +23,68 @@
             name: '信息技术协会(IT协会)',
             slogan: '学在其中，乐在其中，爱在其中',
             imgsrc: '../../static/images/clubsPic/it.jpg',
-            isfollow: 1
+            isfollow: 1,
+            id: 1
           },
           {
             name: '跆拳道协会',
             slogan: '强身健体，锻炼技能，发展潜力',
             imgsrc: '../../static/images/clubsPic/taixie.jpg',
-            isfollow: 1
+            isfollow: 1,
+            id: 2
           },
           {
             name: '师范技能协会',
             slogan: '提高师范技能，实现讲台梦想',
             imgsrc: '../../static/images/clubsPic/shixie.jpg',
-            isfollow: 0
+            isfollow: 0,
+            id: 3
           },
           {
             name: '毽球协会',
             slogan: '学在其中，乐在其中，爱在其中',
             imgsrc: '../../static/images/clubsPic/jianqiu.jpg',
-            isfollow: 0
+            isfollow: 0,
+            id: 4
           },
           {
             name: '轮滑协会',
             slogan: '跟花式轮滑谈场刺激的恋爱',
             imgsrc: '../../static/images/clubsPic/lunhua.jpg',
-            isfollow: 1
+            isfollow: 1,
+            id: 5
           },
           {
             name: '自行车协会',
             slogan: '来一场收走就走的旅行',
             imgsrc: '../../static/images/clubsPic/btc.jpg',
-            isfollow: 1
+            isfollow: 1,
+            id: 6
           },
           {
             name: '计算机协会',
             slogan: '提高师范技能，实现讲台梦想',
             imgsrc: '../../static/images/clubsPic/jixie.jpg',
-            isfollow: 0
+            isfollow: 0,
+            id: 7
           },
           {
             name: '乒乓球',
             slogan: '提高师范技能，实现讲台梦想',
             imgsrc: '../../static/images/clubsPic/pingpang.jpg',
-            isfollow: 1
+            isfollow: 1,
+            id: 8
           }
         ]
+      }
+    },
+    methods: {
+//      跳转社团详情页
+      toDetail(id) {
+//        wx.navigateTo({
+//          url: 'pages/details/details?club_id=' + id
+//        })
+        console.log(id)
       }
     }
   }
@@ -75,6 +92,7 @@
 <style scoped>
 .lists{
    width:100%;
+  box-sizing: border-box;
 
 }
   .list_item{
@@ -83,15 +101,14 @@
     overflow:hidden;
     margin-top:10px;
     padding-right:12px;
-
-
+    box-sizing: border-box;
+    /*border-bottom: 1px dotted #d81e06;*/
 
   }
   .list_item .left{
     width:30%;
     height:100%;
     float:left;
-        border-bottom:1px dotted #d0d0d0;
 
   }
   .list_item .left .club_img{
@@ -110,7 +127,6 @@
     float:left;
     box-sizing:border-box;
     padding-top:10px;
-        border-bottom:1px dotted #d0d0d0;
   }
   .list_item .right .name{
     width:140px;
@@ -140,7 +156,7 @@ line-height:25px;
 text-align:center;
 font-size:12px;
 border-radius:15px;
-background:#d81e06;
+background: #eb3606;
 color:#fff;
 margin-top:26px;
 
