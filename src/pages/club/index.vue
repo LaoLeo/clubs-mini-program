@@ -1,6 +1,6 @@
 <template>
   <div class="lists">
-   <div class="list_item" v-for="item in list" @click='toDetail(item.id)'>
+   <div class="list_item" v-for="item in list" :key="item.id" @click='toDetail(item.id)'>
         <div class="left">
            <div class="club_img" :style="{backgroundImage:'url('+item.imgsrc+')'}"></div>
         </div>
@@ -81,9 +81,9 @@
     methods: {
 //      跳转社团详情页
       toDetail(id) {
-//        wx.navigateTo({
-//          url: 'pages/details/details?club_id=' + id
-//        })
+        wx.navigateTo({
+          url: '/pages/test/test?club_id=' + id
+        })
         console.log(id)
       }
     }
@@ -91,9 +91,8 @@
 </script>
 <style scoped>
 .lists{
-   width:100%;
+  width:100%;
   box-sizing: border-box;
-
 }
   .list_item{
     width:100%;
