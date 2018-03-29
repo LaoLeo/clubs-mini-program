@@ -1,3 +1,3 @@
 export default {
-  ADDCLUB: 'ADDCLUB'
+    ADDCLUB: 'ADDCLUB'
 }
