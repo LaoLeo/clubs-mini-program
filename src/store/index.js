@@ -8,13 +8,13 @@ import message from './message'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-  modules: {
-    message
-  },
-  state: {
-    loading: false
-  },
-  mutations: { }
+    modules: {
+        message
+    },
+    state: {
+        loading: false
+    },
+    mutations: { }
 })
 
 export default store
