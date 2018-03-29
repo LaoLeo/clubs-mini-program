@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
   <div>
        <header >
              <view class="left">
@@ -43,12 +42,6 @@
       </ul>
     </section>
   </div>
-=======
-    <div>
-        <h1>个人中心</h1>
-        <h1>哈哈哈</h1>
-    </div>
->>>>>>> 4ce2e8f241c44407a6320def42046aef4e79e2c0
 </template>
 <script>
 export default {
