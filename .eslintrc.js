@@ -22,7 +22,7 @@ module.exports = {
         // allow paren-less arrow functions
         // 'semi': ['error', 'never'],
         'semi': 0,
-        'quotes': ['error', 'single', { 'avoidEscape': true }],
+        'quotes': 0,
         'indent': ['error', 4],
         'arrow-parens': 0,
         // allow async-await

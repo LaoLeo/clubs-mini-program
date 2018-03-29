@@ -1,24 +1,20 @@
 <template>
-  <div class="details">
-社团详情
-  </div>
+    <div class="details">
+        社团详情
+    </div>
 </template>
 <script>
-  export default {
+export default {
     data() {
-      return {
-        id: ''
-
-      }
+        return {
+            id: ""
+        };
     },
-    methods: {
-
-    },
-    onLoad: function(options) {
-      console.log(options)
-//      this.id = options.id
+    methods: {},
+    onShow() {
+        console.log(this.$root.$mp.query);
     }
-  }
+};
 </script>
 <style scoped>
 

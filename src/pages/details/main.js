@@ -5,9 +5,9 @@ const app = new Vue(App)
 app.$mount()
 
 export default {
-  config: {
-    navigationBarTitleText: '社团详情',
-    backgroundColor: '#eee',
-    backgroundTextStyle: 'light'
-  }
+    config: {
+        navigationBarTitleText: '社团详情',
+        backgroundColor: '#eee',
+        backgroundTextStyle: 'light'
+    }
 }
