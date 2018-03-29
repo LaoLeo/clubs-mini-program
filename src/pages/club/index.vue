@@ -82,9 +82,8 @@
 //      跳转社团详情页
       toDetail(id) {
         wx.navigateTo({
-          url: '/pages/test/test?club_id=' + id
+          url: '/pages/details/details?id=' + id
         })
-        console.log(id)
       }
     }
   }
