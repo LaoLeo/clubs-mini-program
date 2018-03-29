@@ -79,12 +79,21 @@ export default {
         };
     },
     methods: {
+<<<<<<< HEAD
+//      跳转社团详情页
+      toDetail(id) {
+        wx.navigateTo({
+          url: '/pages/details/details?id=' + id
+        })
+      }
+=======
         // 跳转社团详情页
         toDetail(id) {
             wx.navigateTo({
                 url: '/pages/test/test?club_id=' + id
             });
         }
+>>>>>>> 4ce2e8f241c44407a6320def42046aef4e79e2c0
     }
 };
 </script>
