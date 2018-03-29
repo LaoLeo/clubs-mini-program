@@ -22,12 +22,12 @@
 </template>
 
 <script>
-import card from "@/components/card";
+import card from '@/components/card';
 
 export default {
     data() {
         return {
-            motto: "Hello World",
+            motto: 'Hello World',
             userInfo: {}
         };
     },
@@ -38,7 +38,7 @@ export default {
 
     methods: {
         bindViewTap() {
-            const url = "../logs/logs";
+            const url = '../logs/logs';
             wx.navigateTo({ url });
         },
         getUserInfo() {
@@ -54,13 +54,17 @@ export default {
             });
         },
         clickHandle(msg, ev) {
-            console.log("clickHandle:", msg, ev);
+            console.log('clickHandle:', msg, ev);
         }
     },
 
     created() {
         // 调用应用实例的方法获取全局数据
         this.getUserInfo();
+    },
+
+    onShow() {
+        console.log(this.$root.$mp.query)
     }
 };
 </script>

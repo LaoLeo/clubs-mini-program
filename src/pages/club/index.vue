@@ -20,58 +20,58 @@ export default {
         return {
             list: [
                 {
-                    name: "信息技术协会(IT协会)",
-                    slogan: "学在其中，乐在其中，爱在其中",
-                    imgsrc: "../../static/images/clubsPic/it.jpg",
+                    name: '信息技术协会(IT协会)',
+                    slogan: '学在其中，乐在其中，爱在其中',
+                    imgsrc: '../../static/images/clubsPic/it.jpg',
                     isfollow: 1,
                     id: 1
                 },
                 {
-                    name: "跆拳道协会",
-                    slogan: "强身健体，锻炼技能，发展潜力",
-                    imgsrc: "../../static/images/clubsPic/taixie.jpg",
+                    name: '跆拳道协会',
+                    slogan: '强身健体，锻炼技能，发展潜力',
+                    imgsrc: '../../static/images/clubsPic/taixie.jpg',
                     isfollow: 1,
                     id: 2
                 },
                 {
-                    name: "师范技能协会",
-                    slogan: "提高师范技能，实现讲台梦想",
-                    imgsrc: "../../static/images/clubsPic/shixie.jpg",
+                    name: '师范技能协会',
+                    slogan: '提高师范技能，实现讲台梦想',
+                    imgsrc: '../../static/images/clubsPic/shixie.jpg',
                     isfollow: 0,
                     id: 3
                 },
                 {
-                    name: "毽球协会",
-                    slogan: "学在其中，乐在其中，爱在其中",
-                    imgsrc: "../../static/images/clubsPic/jianqiu.jpg",
+                    name: '毽球协会',
+                    slogan: '学在其中，乐在其中，爱在其中',
+                    imgsrc: '../../static/images/clubsPic/jianqiu.jpg',
                     isfollow: 0,
                     id: 4
                 },
                 {
-                    name: "轮滑协会",
-                    slogan: "跟花式轮滑谈场刺激的恋爱",
-                    imgsrc: "../../static/images/clubsPic/lunhua.jpg",
+                    name: '轮滑协会',
+                    slogan: '跟花式轮滑谈场刺激的恋爱',
+                    imgsrc: '../../static/images/clubsPic/lunhua.jpg',
                     isfollow: 1,
                     id: 5
                 },
                 {
-                    name: "自行车协会",
-                    slogan: "来一场收走就走的旅行",
-                    imgsrc: "../../static/images/clubsPic/btc.jpg",
+                    name: '自行车协会',
+                    slogan: '来一场收走就走的旅行',
+                    imgsrc: '../../static/images/clubsPic/btc.jpg',
                     isfollow: 1,
                     id: 6
                 },
                 {
-                    name: "计算机协会",
-                    slogan: "提高师范技能，实现讲台梦想",
-                    imgsrc: "../../static/images/clubsPic/jixie.jpg",
+                    name: '计算机协会',
+                    slogan: '提高师范技能，实现讲台梦想',
+                    imgsrc: '../../static/images/clubsPic/jixie.jpg',
                     isfollow: 0,
                     id: 7
                 },
                 {
-                    name: "乒乓球",
-                    slogan: "提高师范技能，实现讲台梦想",
-                    imgsrc: "../../static/images/clubsPic/pingpang.jpg",
+                    name: '乒乓球',
+                    slogan: '提高师范技能，实现讲台梦想',
+                    imgsrc: '../../static/images/clubsPic/pingpang.jpg',
                     isfollow: 1,
                     id: 8
                 }
@@ -82,9 +82,8 @@ export default {
         // 跳转社团详情页
         toDetail(id) {
             wx.navigateTo({
-                url: "/pages/test/test?club_id=" + id
+                url: '/pages/test/test?club_id=' + id
             });
-            console.log(id);
         }
     }
 };
