@@ -70,10 +70,12 @@ export default {
   }*/
   header{
    width:100%;
-   height:160px;
+   /*height:160px;*/
   box-sizing: border-box;
   padding:12px;
   position: relative;
+      padding-bottom:20px;
+  border-bottom: 16px solid #f0f0f0;
 }
   header .headimg{
     width:80px;
@@ -109,6 +111,8 @@ header .signature{
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+
+
 }
 header .right{
   color:#333;
