@@ -1,6 +1,6 @@
 <template>
   <div>
-       <header >
+       <header @click="toDetail()">
              <view class="left">
                <view class="headimg" style="background-image: url(../../static/images/user.jpg);"></view>
                <view class="name_sex">
@@ -45,7 +45,13 @@
 </template>
 <script>
 export default {
-
+    methods: {
+        toDetail() {
+            wx.navigateTo({
+                url: '/pages/personal/personal'
+            })
+        }
+    }
 }
 </script>
 <style scoped>

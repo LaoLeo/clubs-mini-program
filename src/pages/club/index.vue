@@ -1,10 +1,10 @@
 <template>
   <div class="lists">
-   <div class="list_item" v-for="item in list" :key="item.id" @click='toDetail(item.id)'>
-        <div class="left">
+   <div class="list_item" v-for="item in list" :key="item.id" >
+        <div class="left" >
            <div class="club_img" :style="{backgroundImage:'url('+item.imgsrc+')'}"></div>
         </div>
-        <div class="right">
+        <div class="right" @click='toDetail(item.id)'>
             <div class="name">{{item.name}}</div>
             <div class="slogan">{{item.slogan}}</div>
         </div>

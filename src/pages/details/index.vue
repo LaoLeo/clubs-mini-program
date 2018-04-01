@@ -67,13 +67,8 @@
             <div class="course_con" v-show="current_index==3">
                 <div>
                     <span>这里可以编辑本学期的课程噢</span>
-                    <span class="edit iconfont icon-bianji"></span>
+                    <span class="edit iconfont icon-bianji" @click="add_course=true"></span>
                 </div>
-                <!--<div class="course">-->
-                    <!--<div class="course_name">JS入门基础</div>-->
-                    <!--<div class="course_content"><span>内容:  </span>学习JavaScript入门编程很重要噢</div>-->
-                    <!--<div class="course_time"><span>时间:  </span>本周六14：:0-16:00</div>-->
-                <!--</div>-->
                 <div class="course" v-for="item in courses">
                     <div class="course_name">{{item.name}}</div>
                     <div class="course_content"><span>内容:  </span>{{item.content}}</div>
@@ -81,6 +76,19 @@
                 </div>
             </div>
         </section>
+
+        <!--添加课程弹窗-->
+        <div class="mask" @click="add_course=false" v-show="add_course">
+            <div class="add_course" @click.stop="">
+               <view class="add_btn">添加课程</view>
+                <view>
+                    <span>课程名:<input type="text"></span>
+                    <span>课程内容:<input type="text"></span>
+                    <span>上课时间:<input type="text"></span>
+                </view>
+                <view class="submit"  @click="add_course=false" >提交课程</view>
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -108,7 +116,8 @@ export default {
                     id: 3
                 }
             ],
-            current_index: 1
+            current_index: 1,
+            add_course: false
         };
     },
     methods: {
@@ -351,6 +360,53 @@ export default {
     font-size:36px;
     line-height:120px;
     text-align: center;
+}
+.details .mask{
+    width:100%;
+    height:100%;
+    position: fixed;
+    left:0;
+    top: 0;
+    background-color: rgba(0,0,0,.4);
+
+}
+.details .mask .add_course{
+    width:80%;
+    height:350px;
+    margin:100px auto;
+    background-color: #fff;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding:12px;
+}
+.details .mask .add_course .add_btn{
+    text-align: center;
+    font-size:20px;
+    color:#333;
+}
+.details .mask .add_course span{
+    display: block;
+    width:100%;
+    height:75px;
+    margin-top:2px;
+}
+.details .mask .add_course input{
+    width:250px;
+     height:40px;
+     border: 1px solid #d0d0d0;
+    margin-top:4px;
+
+}
+.details .mask .add_course .submit{
+    width:100px;
+    heihgt:40px;
+    text-align: center;
+    line-height:40px;
+    background-color: #eb3606;
+    color:#fff;
+    margin:20px auto;
+    border-radius: 5px;
+
 }
 </style>
 
