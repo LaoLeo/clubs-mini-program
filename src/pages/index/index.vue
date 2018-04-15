@@ -9,6 +9,7 @@
           <div class="edit iconfont icon-bianji" @click="addActivity()"></div>
       </header>
       <div class="bg"></div>
+
       <section>
           <!--活动-->
           <div class="box" v-for="item in lists" v-show="current_index==1" @click="toDetails(item.id)">
@@ -27,8 +28,58 @@
                 <div class="description">{{item.description}}</div>
           </div>
           <!--动态-->
-          <div class="box2" v-show="current_index==2">动态</div>
+          <div class="box" v-show="current_index==2" >
+              <div class="headimg">
+                  <div class="picture" style="background-image: url(../../static/images/user.jpg);">
+
+                  </div>
+                  <div class="club_name">
+                      <view class="name">一只酸奶牛</view>
+                      <view class="date">2018/03/22</view>
+                  </div>
+              </div>
+              <div class="content1" >
+                  <div class="mood">今天怎么不开心今天怎么不开心今天怎么不开心今天怎么不开心</div>
+                  <div class="photo">
+                      <ul>
+                          <li v-for="(index,intem) in 9">{{index}}</li>
+                      </ul>
+                  </div>
+                  <div class="comments">
+                      <span class="iconfont icon-icon_good"></span>
+                      <span class="good">100</span>
+                      <span class="iconfont icon-pinglun" ></span>
+                      <span>222</span>
+                  </div>
+              </div>
+          </div>
+          <div class="box" v-show="current_index==2" >
+              <div class="headimg">
+                  <div class="picture" style="background-image: url(../../static/images/user.jpg);">
+
+                  </div>
+                  <div class="club_name">
+                      <view class="name">一只酸奶牛</view>
+                      <view class="date">2018/03/22</view>
+                  </div>
+              </div>
+              <div class="content1" >
+                  <div class="mood">今天怎么不开心今天怎么不开心今天怎么不开心今天怎么不开心</div>
+                  <div class="photo">
+                      <ul>
+                          <li v-for="(index,intem) in 5">{{index}}</li>
+                      </ul>
+                  </div>
+                  <div class="comments">
+                      <span class="iconfont icon-icon_good"></span>
+                      <span class="good">100</span>
+                      <span class="iconfont icon-pinglun" ></span>
+                      <span>222</span>
+                  </div>
+              </div>
+          </div>
       </section>
+
   </div>
 </template>
 
@@ -214,7 +265,43 @@ section .box .headimg .picture{
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+    }
+    section .box .content1 {
+        width:100%;
+    }
+    section .box .content1 .mood{
+        font-size:14px;
+        padding-left:30px;
 
     }
+    section .box .content1 .photo ul{
+        width: 100%;
+        overflow: hidden;
+        box-sizing: border-box;
+        padding-left:30px;
 
+    }
+    section .box .content1 .photo li{
+        width:80px;
+        height:80px;
+        float: left;
+        margin-right:15px;
+        margin-top:10px;
+        text-align: center;
+        border: 1px solid #75b9eb;
+        line-height:80px;
+    }
+    section .box .content1 .comments{
+        float: right;
+        font-size:14px;
+        margin-top:20px;
+    }
+    section .box .content1 .comments .icon-icon_good,
+    section .box .content1 .comments .icon-pinglun{
+        font-size:20px;
+        color:#75b9eb;
+    }
+    section .box .content1 .comments  .good{
+        margin-right:16px;
+    }
 </style>
