@@ -6,12 +6,12 @@
               <div class="activity" :class="{ active: current_index == 1}"  @click="change(1)">活动</div>
               <div class="dynamic"  @click="change(2)" :class="{ active: current_index == 2}">动态</div>
           </div>
-          <div class="edit iconfont icon-bianji"></div>
+          <div class="edit iconfont icon-bianji" @click="addActivity()"></div>
       </header>
       <div class="bg"></div>
       <section>
           <!--活动-->
-          <div class="box" v-for="item in lists" v-show="current_index==1">
+          <div class="box" v-for="item in lists" v-show="current_index==1" @click="toDetails(item.id)">
                 <div class="headimg">
                     <div class="picture"  :style="{backgroundImage:'url('+item.headimg+')'}">
 
@@ -78,6 +78,16 @@ export default {
         },
         change(index) {
             this.current_index = index;
+        },
+        addActivity() {
+            wx.navigateTo({
+                url: '/pages/activity/activity'
+            })
+        },
+        toDetails(id) {
+            wx.navigateTo({
+                url: ''
+            })
         }
     }
 };
