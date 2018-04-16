@@ -49,7 +49,7 @@
         <section v-show="currentIndex==2">
             <ul class="content">
                 <li class="bd-b">
-                    <div class="picture" style="background-image: url(../../static/images/user.jpg);"></div>
+                    <div class="picture" style="background-image: url(../../static/images/user1.jpg);"></div>
                     <div class="message" >
                         <view>酸奶</view>
                         <view class="description">哇，好帅啊啊啊</view>
@@ -58,7 +58,7 @@
                     <div class="dynamic" style="background-image: url(../../static/images/taixie/bg.jpg);"></div>
                 </li>
                 <li class="bd-b">
-                    <div class="picture" style="background-image: url(../../static/images/user.jpg);"></div>
+                    <div class="picture" style="background-image: url(../../static/images/user2.jpg);"></div>
                     <div class="message">
                         <view>益力多</view>
                         <view class="description">小哥哥好酷呦</view>
@@ -67,7 +67,7 @@
                     <div class="dynamic" style="background-image: url(../../static/images/taixie/bg.jpg);"></div>
                 </li>
                 <li class="bd-b">
-                    <div class="picture" style="background-image: url(../../static/images/user.jpg);"></div>
+                    <div class="picture" style="background-image: url(../../static/images/user1.jpg);"></div>
                     <div class="message">
                         <view>飞天猪</view>
                         <view class="description">谢谢哇</view>

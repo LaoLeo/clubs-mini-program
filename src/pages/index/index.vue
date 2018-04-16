@@ -28,9 +28,9 @@
                 <div class="description">{{item.description}}</div>
           </div>
           <!--动态-->
-          <div class="box" v-show="current_index==2" >
+          <div class="box" v-show="current_index==2" @click="toDetails()" >
               <div class="headimg">
-                  <div class="picture" style="background-image: url(../../static/images/user.jpg);">
+                  <div class="picture" style="background-image: url(../../static/images/user2.jpg);">
 
                   </div>
                   <div class="club_name">
@@ -135,9 +135,9 @@ export default {
                 url: '/pages/activity/activity'
             })
         },
-        toDetails(id) {
+        toDetails() {
             wx.navigateTo({
-                url: ''
+                url: '/pages/comments/comments'
             })
         }
     }
@@ -205,8 +205,8 @@ section{
 section .box{
      box-sizing: border-box;
      padding: 10px;
-    border: 1px solid #e8e8e8;
     margin-top:10px;
+    border-bottom: 1px solid #d0d0d0;
 
 }
 section .box .headimg{
@@ -292,9 +292,10 @@ section .box .headimg .picture{
         line-height:80px;
     }
     section .box .content1 .comments{
-        float: right;
+        width:100%;
         font-size:14px;
         margin-top:20px;
+        text-align: right;
     }
     section .box .content1 .comments .icon-icon_good,
     section .box .content1 .comments .icon-pinglun{
