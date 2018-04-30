@@ -12,7 +12,7 @@
 
       <section>
           <!--活动-->
-          <div class="box" v-for="item in lists" v-show="current_index==1" @click="toDetails(item.id)">
+          <div class="box" v-for="item in lists" v-show="current_index==1" @click="toEvent(item.id)">
                 <div class="headimg">
                     <div class="picture"  :style="{backgroundImage:'url('+item.headimg+')'}">
 
@@ -132,12 +132,17 @@ export default {
         },
         addActivity() {
             wx.navigateTo({
-                url: '/pages/activity/activity'
+                url: '/pages/activity/activity?index=' + this.current_index
             })
         },
         toDetails() {
             wx.navigateTo({
                 url: '/pages/comments/comments'
+            })
+        },
+        toEvent(id) {
+            wx.navigateTo({
+                url: '/pages/events/events?id=' + id
             })
         }
     }
