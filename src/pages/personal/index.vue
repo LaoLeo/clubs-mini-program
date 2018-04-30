@@ -1,7 +1,7 @@
 <template>
     <div>
-       <header>
-           <div class="headimg" style="background-image: url(../../static/images/user.jpg);"></div>
+       <header @click="changeImage()">
+           <div class="headimg" :style="{backgroundImage:'url('+imageUrl+')'}"></div>
            <view class="change">点击切换头像</view>
        </header>
 
@@ -10,7 +10,7 @@
                 <span >昵称：</span> <span>酸奶益力多</span>
             </view>
             <view class="bd-b">
-                <span>性别：</span> <input type="checkbox" class="girl"><span class="sex iconfont icon-xingbienv"> </span>  <input type="checkbox" class="boy"> <span class="sex iconfont icon-xingbienan"></span>
+                <span>性别：</span> <input type="radio" class="girl" name="sex" value="female"><span class="sex iconfont icon-xingbienv"> </span>  <input type="radio" class="boy" name="sex" value="male">  <span class="sex iconfont icon-xingbienan"></span>
             </view>
             <view class="bd-b">
                 <span>手机号码：</span> <span>18813960131</span>
@@ -23,6 +23,39 @@
 </template>
 <script>
 export default {
+    data() {
+        return {
+            current_index: 0,
+            imageUrl: '../../../static/images/user.jpg'
+        };
+    },
+
+    components: {
+    },
+
+    methods: {
+        changeImage() {
+            var that = this;
+            wx.chooseImage({
+                count: 1, // 默认9
+                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                success: function (res) {
+                    // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+                    var tempFilePaths = res.tempFilePaths
+                    that.imageUrl = tempFilePaths[0];
+                }
+            })
+        }
+    },
+
+    created() {
+    },
+
+    onShow() {
+        this.current_index = this.$root.$mp.query.index;
+        console.log(this.current_index);
+    }
 };
 </script>
 <style scoped>
@@ -56,6 +89,7 @@ export default {
         margin:0 auto;
         -webkit-background-size:cover;
         background-size:cover;
+        background-position: center center;
 
     }
     header .change{

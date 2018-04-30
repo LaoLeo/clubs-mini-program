@@ -15,8 +15,9 @@
             </view>
             <view style="margin-top: 12px;">
                 <span class="fs20 content">上传图片: </span><span class="upload iconfont icon-tupian"></span>
-                <ul class="images">
-                    <li></li>
+                <ul class="picture">
+                    <li class="add iconfont icon-tianjia" @click="uploadImage()"></li>
+                    <li class="add" :style="{backgroundImage:'url('+item+')'}" v-for="item in imageUrl"></li>
                 </ul>
             </view>
             <view>
@@ -25,7 +26,10 @@
         </div>
        <div class="dynamic" v-show="current_index==2">
            <textarea placeholder="这一刻，你在想什么..."></textarea>
-            <div class="add iconfont icon-tianjia"></div>
+           <ul class="picture">
+               <li class="add iconfont icon-tianjia" @click="uploadImage()"></li>
+               <li class="add" :style="{backgroundImage:'url('+item+')'}" v-for="item in imageUrl"></li>
+           </ul>
           <view class="send">发表动态</view>
        </div>
     </section>
@@ -36,7 +40,8 @@
 export default {
     data() {
         return {
-            current_index: 0
+            current_index: 0,
+            imageUrl: []
         };
     },
 
@@ -44,6 +49,19 @@ export default {
     },
 
     methods: {
+        uploadImage() {
+            var that = this;
+            wx.chooseImage({
+                count: 1, // 默认9
+                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                success: function (res) {
+                    // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+                    var tempFilePaths = res.tempFilePaths
+                    that.imageUrl.push(tempFilePaths[0]);
+                }
+            })
+        }
     },
 
     created() {
@@ -143,14 +161,26 @@ export default {
         color:#666666;
         padding:12px;
     }
-    .box .dynamic .add{
+    .box  .picture{
+        width:100%;
+        overflow: hidden;
+    }
+    .box  .picture li{
+        float: left;
+        margin-right:10px;
+    }
+    .box  .add{
         margin-top:10px;
-        width:80px;
-        height:100px;
+        width:70px;
+        height:80px;
         border: 1px solid #d0d0d0;
         font-size:26px;
         text-align: center;
-        line-height:100px;
+        line-height:80px;
         color: #d0d0d0;;
+        -webkit-background-size:cover;
+        background-size:cover;
+        background-position: center center;
+
     }
 </style>
