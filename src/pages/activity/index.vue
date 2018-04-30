@@ -1,6 +1,6 @@
 <template>
     <section class="box" >
-        <div v-show="current_index==1">
+        <div v-show="current_index==1" >
             <view>
                 <span class="fs20 scope">活动所属:</span>
                 <input type="text">
@@ -36,7 +36,7 @@
 export default {
     data() {
         return {
-            current_index: 1
+            current_index: 0
         };
     },
 
@@ -51,7 +51,7 @@ export default {
 
     onShow() {
         this.current_index = this.$root.$mp.query.index;
-        console.log(this.current_index.index);
+        console.log(this.current_index);
     }
 };
 </script>
