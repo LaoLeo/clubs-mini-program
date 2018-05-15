@@ -42,7 +42,7 @@
                   <div class="mood">今天怎么不开心今天怎么不开心今天怎么不开心今天怎么不开心</div>
                   <div class="photo">
                       <ul>
-                          <li v-for="(index,intem) in 9">{{index}}</li>
+                          <li v-for="(index, item) in 9" :key="index">{{index}}</li>
                       </ul>
                   </div>
                   <div class="comments">
@@ -67,7 +67,7 @@
                   <div class="mood">今天怎么不开心今天怎么不开心今天怎么不开心今天怎么不开心</div>
                   <div class="photo">
                       <ul>
-                          <li v-for="(index,intem) in 5">{{index}}</li>
+                          <li v-for="(index, item) in 5" :key="index">{{index}}</li>
                       </ul>
                   </div>
                   <div class="comments">

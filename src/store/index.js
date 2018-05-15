@@ -4,12 +4,14 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import message from './message'
+import user from './user'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
     modules: {
-        message
+        message,
+        user
     },
     state: {
         loading: false

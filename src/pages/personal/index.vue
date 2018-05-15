@@ -1,36 +1,52 @@
 <template>
     <div>
        <header @click="changeImage()">
-           <div class="headimg" :style="{backgroundImage:'url('+imageUrl+')'}"></div>
+           <view class="headimg" :style="{backgroundImage: avetar}"></view>
            <view class="change">点击切换头像</view>
        </header>
 
         <section>
             <view class="bd-b">
-                <span >昵称：</span> <span>酸奶益力多</span>
+                <label>昵称：</label> <input class="b-input" type="text" v-model="user.name"/>
             </view>
             <view class="bd-b">
-                <span>性别：</span> <input type="radio" class="girl" name="sex" value="female"><span class="sex iconfont icon-xingbienv"> </span>  <input type="radio" class="boy" name="sex" value="male">  <span class="sex iconfont icon-xingbienan"></span>
+                <span>性别：</span>
+                <radio-group class="b-input" @change="setInfo('sex', $event.target.value)">
+                    <radio value="2" :checked="user.sex == 2"/><span class="sex iconfont icon-xingbienv"></span>
+                    <radio value="1" :checked="user.sex == 1"/><span class="sex iconfont icon-xingbienan"></span>
+                </radio-group>
+
             </view>
             <view class="bd-b">
-                <span>手机号码：</span> <span>18813960131</span>
+                <span>手机号码：</span> <input class="b-input" type="text" v-model="user.phone"/>
             </view>
             <view class="bd-b">
-                <span>个性签名：</span> <span>越努力越幸运</span>
+                <span>个性签名：</span> <input class="b-input" type="text" v-model="user.signature"/>
             </view>
+
+            <button @tap="submit()">确定</button>
         </section>
     </div>
 </template>
 <script>
+import store from '@/store'
+import type from '@/utils/mutitionsType'
+import * as API from '@/utils/api.js'
+
 export default {
     data() {
         return {
+            user: {},
             current_index: 0,
             imageUrl: '../../../static/images/user.jpg'
         };
     },
 
-    components: {
+    computed: {
+        avetar() {
+            let pic = this.user.picture || '../../../static/images/user.jpg'
+            return `url(${pic})`
+        }
     },
 
     methods: {
@@ -46,21 +62,54 @@ export default {
                     that.imageUrl = tempFilePaths[0];
                 }
             })
+        },
+        setInfo(key, value) {
+            console.log()
+            this.user[key] = value
+        },
+        submit() {
+            // 检验phone
+            let reg = /^[1][3,4,5,7,8][0-9]{9}$/
+            if (!reg.test(parseInt(this.user.phone))) {
+                wx.showToast({title: '手机号码不正确', icon: 'none'})
+                return
+            }
+
+            API.request(
+                'put',
+                API.editUserInfo,
+                this.user
+            ).then((res) => {
+                if (res.code !== 200) {
+                    wx.showToast({title: '用户信息修改失败,' + res.msg})
+                } else {
+                    store.commit(type.EDITUSER, this.user)
+                    wx.showToast({icon: 'success'})
+                }
+            })
         }
     },
 
     created() {
     },
 
-    onShow() {
-        this.current_index = this.$root.$mp.query.index;
-        console.log(this.current_index);
+    onLoad() {
+        this.user = Object.assign({phone: '', signature: ''}, store.state.user.user)
     }
+
+    // onShow() {
+    //     this.current_index = this.$root.$mp.query.index;
+    //     console.log(this.current_index);
+    // }
 };
 </script>
 <style scoped>
     .bd-b{
         position:relative;
+        display: flex;
+    }
+    .bd-b .b-input {
+        flex: 1;
     }
     /*细线*/
     .bd-b:after{

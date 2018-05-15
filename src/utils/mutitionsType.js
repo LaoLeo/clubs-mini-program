@@ -1,3 +1,8 @@
 export default {
-    ADDCLUB: 'ADDCLUB'
+    // club
+    ADDCLUB: 'ADDCLUB',
+
+    // user
+    EDITUSER: 'EDITUSER',
+    SaveXAccessToken: 'SaveXAccessToken'
 }

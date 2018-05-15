@@ -1,12 +1,78 @@
 <script>
-export default {
-    created() {
-        // 调用API从本地缓存中获取数据
-        // const logs = wx.getStorageSync('logs') || []
-        // logs.unshift(Date.now())
-        // wx.setStorageSync('logs', logs)
+import * as API from './utils/api.js'
+import type from '@/utils/mutitionsType'
+import { TOKEN } from '@/utils/config'
+import store from '@/store'
 
+export default {
+    methods: {
+        login() {
+            wx.login({
+                success: function(res) {
+                    if (res.code) {
+                        let code = res.code
+
+                        wx.getUserInfo({
+                            success: function(res) {
+                                let userInfo = res.userInfo
+
+                                wx.request({
+                                    method: 'POST',
+                                    url: API.userLogin,
+                                    data: {
+                                        code,
+                                        userInfo
+                                    },
+                                    success({ data }) {
+                                        if (data.code !== 200) {
+                                            wx.showToast({
+                                                title: '登录失败,errmsg：' + data.msg,
+                                                icon: 'none',
+                                                duration: 2000
+                                            })
+                                        } else {
+                                            data = data.data
+                                            store.commit(type.EDITUSER, data.user)
+                                            store.commit(type.SaveXAccessToken, data.token)
+                                        }
+                                    }
+                                })
+                            }
+                        })
+                    } else {
+                        console.log('登录失败！' + res.errMsg)
+                    }
+                }
+            });
+        },
+        getInfo() {
+            API.request(
+                'get',
+                API.getUserInfo
+            ).then((res) => {
+                if (res.code !== 200) {
+                    wx.showToast({title: '用户信息获取失败,' + res.msg})
+                } else {
+                    store.commit(type.EDITUSER, res.data.user)
+                    console.log(res.data.user)
+                }
+            })
+        }
+    },
+
+    created() {
         console.log('starting...');
+
+        try {
+            let token = wx.getStorageSync(TOKEN)
+            if (!token) {
+                this.login()
+            } else {
+                this.getInfo()
+            }
+        } catch (e) {
+            console.log(e)
+        }
     }
 };
 </script>

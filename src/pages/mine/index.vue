@@ -2,13 +2,13 @@
   <div>
        <header @click="toDetail()">
              <view class="left">
-               <view class="headimg" style="background-image: url(../../static/images/user.jpg);"></view>
+               <view class="headimg" :style="{backgroundImage: avetar}"></view>
                <view class="name_sex">
-                 <span class="name">酸奶益力多</span>
-                 <span class="sex iconfont icon-xingbienv"></span>
+                 <span class="name">{{ user.name }}</span>
+                 <span class="sex iconfont" :class="user.sex == 1 ? 'icon-xingbienan' : 'icon-xingbienv'"></span>
                  <!--<span class="sex iconfont icon-xingbienan"></span>-->
                </view>
-               <view class="signature"><span>个性签名：</span>有梦想的益力多,有梦想的益力多</view>
+               <view class="signature"><span>个性签名：</span>{{ user.signature || '一瓶有梦想的益力多' }}</view>
              </view>
              <view class="right"> <span class="iconfont icon-jiantou"></span></view>
        </header>
@@ -44,13 +44,31 @@
   </div>
 </template>
 <script>
+import store from '@/store'
+
 export default {
+    data() {
+        return {
+            user: {},
+            userState: store.state.user
+        }
+    },
+    computed: {
+        avetar() {
+            return `url(${this.user.picture})`
+        }
+    },
     methods: {
         toDetail() {
             wx.navigateTo({
                 url: '/pages/personal/personal'
             })
         }
+    },
+    created() {
+    },
+    onshow() {
+        this.user = this.userState.user
     }
 }
 </script>
