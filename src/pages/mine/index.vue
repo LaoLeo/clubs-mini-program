@@ -1,43 +1,31 @@
 <template>
   <div>
        <header @click="toDetail()">
-             <view class="left">
-               <view class="headimg" :style="{backgroundImage: avatar}"></view>
-               <view class="name_sex">
-                 <span class="name">{{ user.name }}</span>
-                 <span class="sex iconfont" :class="user.sex == 1 ? 'icon-xingbienan' : 'icon-xingbienv'"></span>
-                 <!--<span class="sex iconfont icon-xingbienan"></span>-->
-               </view>
-               <view class="signature"><span>个性签名：</span>{{ user.signature || '一瓶有梦想的益力多' }}</view>
-             </view>
+            <view class="left">
+            <view class="headimg" :style="{backgroundImage: avatar}"></view>
+            <view class="name_sex">
+                <span class="name">{{ user.name }}</span>
+                <span class="sex iconfont" :class="user.sex == 1 ? 'icon-xingbienan' : 'icon-xingbienv'"></span>
+                <!--<span class="sex iconfont icon-xingbienan"></span>-->
+            </view>
+            <view class="signature"><span>个性签名：</span>{{ user.signature || '一瓶有梦想的益力多' }}</view>
+            </view>
              <view class="right"> <span class="iconfont icon-jiantou"></span></view>
        </header>
 
     <section>
       <ul class="message">
         <li class="bd-b">
-          <span class="message_left">所在社团</span>
-          <span class="message_right iconfont icon-jiantou"> </span>
+          <span class="message_left">报名的活动</span>
+          <span class="message_right iconfont icon-jiantou"></span>
         </li>
-        <li class="bd-b">
-          <span class="message_left">我的动态</span>
-          <span class="message_right iconfont icon-jiantou"> </span>
+        <li class="bd-b" v-if="isClubOwn" @tap="toClubAdminPage()">
+          <span class="message_left">管理club</span>
+          <span class="message_right iconfont icon-jiantou"></span>
         </li>
-        <li class="bd-b">
-          <span class="message_left">我的角色</span>
-          <span class="message_right">部长</span>
-        </li>
-        <li class="bd-b">
-          <span class="message_left">手机</span>
-          <span class="message_right">18813960131</span>
-        </li>
-        <li class="bd-b">
-          <span class="message_left">QQ</span>
-          <span class="message_right">1519025391</span>
-        </li>
-        <li class="bd-b">
-          <span class="message_left">微信</span>
-          <span class="message_right">18813960131</span>
+        <li class="bd-b" v-else @tap="toClubCreatePage()">
+          <span class="message_left">创建club</span>
+          <span class="message_right iconfont icon-jiantou"></span>
         </li>
       </ul>
     </section>
@@ -57,6 +45,9 @@ export default {
         avatar() {
             let pic = this.user.picture || '../../../static/images/user.jpg'
             return `url(${pic})`
+        },
+        isClubOwn() {
+            return Array.isArray(this.user.clubs_own) && this.user.clubs_own.length > 0
         }
     },
     methods: {
@@ -64,7 +55,18 @@ export default {
             wx.navigateTo({
                 url: '/pages/personal/personal'
             })
+        },
+        toClubCreatePage() {
+            wx.navigateTo({
+                url: '/pages/clubEdit/clubEdit'
+            })
+        },
+        toClubAdminPage() {
+            wx.navigateTo({
+                url: '/pages/clubAdmin/clubAdmin'
+            })
         }
+
     },
     created() {
     },
