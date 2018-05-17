@@ -2,7 +2,7 @@
   <div>
        <header @click="toDetail()">
              <view class="left">
-               <view class="headimg" :style="{backgroundImage: avetar}"></view>
+               <view class="headimg" :style="{backgroundImage: avatar}"></view>
                <view class="name_sex">
                  <span class="name">{{ user.name }}</span>
                  <span class="sex iconfont" :class="user.sex == 1 ? 'icon-xingbienan' : 'icon-xingbienv'"></span>
@@ -54,8 +54,9 @@ export default {
         }
     },
     computed: {
-        avetar() {
-            return `url(${this.user.picture})`
+        avatar() {
+            let pic = this.user.picture || '../../../static/images/user.jpg'
+            return `url(${pic})`
         }
     },
     methods: {
@@ -67,7 +68,7 @@ export default {
     },
     created() {
     },
-    onshow() {
+    onShow() {
         this.user = this.userState.user
     }
 }
