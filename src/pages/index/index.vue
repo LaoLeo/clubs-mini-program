@@ -28,7 +28,7 @@
                 <div class="description">{{item.description}}</div>
           </div>
           <!--动态-->
-          <div class="box" v-show="current_index==2" @click="toDetails()" >
+          <div class="box" v-show="current_index==2" >
               <div class="headimg">
                   <div class="picture" style="background-image: url(../../static/images/user2.jpg);">
 
@@ -46,10 +46,15 @@
                       </ul>
                   </div>
                   <div class="comments">
-                      <span class="iconfont icon-icon_good"></span>
-                      <span class="good">100</span>
-                      <span class="iconfont icon-pinglun" ></span>
-                      <span>222</span>
+                      <span @click="Prais()">
+                            <span class="iconfont icon-icon_good" :class="{'active':!isPrais}"></span>
+                            <span class="good" >{{praise}}</span>
+                      </span>
+
+                       <span @click="toDetails()" >
+                           <span class="iconfont icon-pinglun" ></span>
+                           <span >222</span>
+                       </span>
                   </div>
               </div>
           </div>
@@ -120,7 +125,9 @@ export default {
                     title: 'IT七岁啦啦啦啦啦'
                 }
             ],
-            current_index: 1
+            current_index: 1,
+            praise: 100,
+            isPrais: 1
         };
     },
     methods: {
@@ -144,6 +151,13 @@ export default {
             wx.navigateTo({
                 url: '/pages/events/events?id=' + id
             })
+        },
+        Prais() {
+            let that = this;
+            if (that.isPrais) {
+                that.praise++;
+                that.isPrais = 0;
+            }
         }
     }
 };
@@ -306,6 +320,11 @@ section .box .headimg .picture{
     section .box .content1 .comments .icon-pinglun{
         font-size:20px;
         color:#75b9eb;
+    }
+
+    section .box .content1 .comments .active{
+        font-size:22px;
+        color:orangered;
     }
     section .box .content1 .comments  .good{
         margin-right:16px;

@@ -40,8 +40,18 @@
                                <li>
                                    <span>@益力多：</span><span>娃娃哈哈哈哈哈哈后</span>
                                </li>
-                               <li class="more">查看剩余99条评论&gt;</li>
+                               <li class="more" @click="hasReply()" v-show="!more_reply">查看剩余99条评论&gt;</li>
                            </ul>
+                        </div>
+                        <div class="more_reply" v-show="more_reply">
+                            <ul>
+                                <li>
+                                    <span>@飞天猪：</span><span>开心就好呀</span>
+                                <li>
+                                    <span>@益力多：</span><span>娃娃哈哈哈哈哈哈后</span>
+                                </li>
+                                <li class="take_up" @click="hasReply()" v-show="more_reply">收起评论</li>
+                            </ul>
                         </div>
                     </div>
                     <div class="date">12小时前</div>
@@ -63,8 +73,9 @@
                     <div class="date">12小时前</div>
                 </li>
             </ul>
-            <div class="publish">
-                <input type="text" placeholder="请输入评论">
+             <div class="publish">
+                 <input type="text" placeholder="请输入评论">
+                 <span class="send">发送</span>
             </div>
         </div>
     </section>
@@ -75,11 +86,16 @@
 export default {
     data() {
         return {
-            motto: 'Hello World'
+            motto: 'Hello World',
+            more_reply: false
         };
     },
 
     methods: {
+        hasReply() {
+            let that = this;
+            that.more_reply = !that.more_reply
+        }
     },
 
     created() {
@@ -191,6 +207,7 @@ export default {
         margin-right:16px;
     }
     section  .review{
+        padding-bottom:50px;
     }
     section  .review p{
         box-sizing: border-box;
@@ -232,11 +249,24 @@ export default {
         padding:4px;
         font-size:12px;
     }
+    section .review .content li .message .more_reply{
+        width:100%;
+        /*height:100px;*/
+        background-color: #f0f0f0;
+        box-sizing: border-box;
+        padding:4px;
+        font-size:12px;
+    }
     section .review .content li .message .reply .more{
         color:#75b9eb;
         font-size:14px;
     }
-    section .review .content li .message .reply ul li {
+    section .review .content li .message  .take_up{
+        color:#75b9eb;
+        font-size:14px;
+        text-align: center;
+    }
+    section .review .content li .message  ul li {
         padding: 0;
         /*height:20px;*/
     }
@@ -272,18 +302,39 @@ export default {
         height:36px;
         box-sizing: border-box;
         border-radius: 23px;
+        background-color: #fff;
         padding-left:12px;
         padding-right:12px;
-        /*position: fixed;*/
-        /*bottom: 0;*/
-        background-color: #fff;
+        position: fixed;
+        bottom: 0;
     }
     section  .review .publish input{
-        width:94%;
+        width:70%;
+        float: left;
         height:36px;
+        line-height: 36px;
         font-size:14px;
+        border-radius: 34px;
         border: 1px solid #d0d0d0;
-        border-radius: 28px;
         padding-left:12px;
     }
+    section  .review .publish .send{
+        width:23%;
+        height:36px;
+        text-align: center;
+        line-height:36px;
+        border-radius: 34px;
+        font-size:16px;
+        float: right;
+        color:#75b9eb;
+        border: 1px solid #75b9eb;
+    }
+    /*section  .review .publish input{*/
+        /*width:94%;*/
+        /*height:36px;*/
+        /*font-size:14px;*/
+        /*border: 1px solid #d0d0d0;*/
+        /*border-radius: 28px;*/
+        /*padding-left:12px;*/
+    /*}*/
 </style>

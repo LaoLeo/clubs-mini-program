@@ -1,6 +1,6 @@
 <template>
   <div class="lists">
-   <div class="list_item" v-for="item in list" :key="item.id" >
+   <div class="list_item" v-for="(item,index) in list" :key="item.id" >
         <div class="left" >
            <div class="club_img" :style="{backgroundImage:'url('+item.imgsrc+')'}"></div>
         </div>
@@ -8,8 +8,9 @@
             <div class="name">{{item.name}}</div>
             <div class="slogan">{{item.slogan}}</div>
         </div>
-        <div class="follow" v-if="item.isfollow">关注</div>
-        <div class="follow unfollow" v-else>已关注</div>
+
+        <div class="follow" v-if="item.isfollow==1" @click="follow(index)">关注</div>
+        <div class="follow unfollow" v-else @click="follow(index)">已关注</div>
 
     </div>
   </div>
@@ -84,7 +85,17 @@ export default {
             wx.navigateTo({
                 url: '/pages/details/details?id=' + id
             })
+        },
+
+        follow(index) {
+            let that = this;
+            if (that.list[index].isfollow == 1) {
+                that.list[index].isfollow = 0;
+            } else {
+                that.list[index].isfollow = 1;
+            }
         }
+
     }
 };
 </script>
