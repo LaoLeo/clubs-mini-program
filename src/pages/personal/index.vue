@@ -1,7 +1,7 @@
 <template>
     <div>
        <header @click="changeImage()">
-           <view class="headimg" :style="{backgroundImage: avetar}"></view>
+           <view class="headimg" :style="{backgroundImage: avatar}"></view>
            <view class="change">点击切换头像</view>
        </header>
 
@@ -43,7 +43,7 @@ export default {
     },
 
     computed: {
-        avetar() {
+        avatar() {
             let pic = this.user.picture || '../../../static/images/user.jpg'
             return `url(${pic})`
         }
