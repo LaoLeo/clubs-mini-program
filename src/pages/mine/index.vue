@@ -19,6 +19,10 @@
           <span class="message_left">报名的活动</span>
           <span class="message_right iconfont icon-jiantou"></span>
         </li>
+           <li class="bd-b" @tap="toClubAdminPage()">
+          <span class="message_left">管理club</span>
+          <span class="message_right iconfont icon-jiantou"></span>
+        </li>
         <li class="bd-b" v-if="isClubOwn" @tap="toClubAdminPage()">
           <span class="message_left">管理club</span>
           <span class="message_right iconfont icon-jiantou"></span>
@@ -151,13 +155,12 @@ header .right .icon-jiantou{
   font-size:30px;
 }
 section{
-  margin-top: 16px;
+  /* margin-top: 16px; */
 
 }
   section .message{
     width:100%;
     box-sizing: border-box;
-    padding:10px;
 
   }
   section .message li{
@@ -168,12 +171,14 @@ section{
     font-size:16px;
     color:#000;
     position: relative;
+    padding-left: 12px;
   }
 section .message .message_left{
   float: left;
 }
 section .message .message_right{
   float: right;
+  padding-right: 30px;
 }
 section .message  .icon-jiantou {
   font-size:20px;

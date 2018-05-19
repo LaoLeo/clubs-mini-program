@@ -24,7 +24,7 @@
                 <span>个性签名：</span> <input class="b-input" type="text" v-model="user.signature"/>
             </view>
 
-            <button @tap="submit()">确定</button>
+            <button @tap="submit()" class="submit">确定</button>
         </section>
     </div>
 </template>
@@ -172,4 +172,18 @@ export default {
         height:20px;
         margin-right:10px;
     }
+
+section .submit{
+    width:80px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    border-radius: 20px;
+    color:#75b9eb;
+    border:1px solid #75b9eb;
+    margin-top: 10px;
+
+    background-color: #fff;
+}
+
 </style>
