@@ -5,13 +5,15 @@ import Vuex from 'vuex'
 
 import message from './message'
 import user from './user'
+import club from './club'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
     modules: {
         message,
-        user
+        user,
+        club
     },
     state: {
         loading: false

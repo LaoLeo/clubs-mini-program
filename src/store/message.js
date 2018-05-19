@@ -8,7 +8,7 @@ export default {
         }]
     },
     mutations: {
-        [type.ADDCLUB](state) {
+        [type.AddClub](state) {
             state.clubsList.push({
                 id: 1002,
                 name: '星星文学社'

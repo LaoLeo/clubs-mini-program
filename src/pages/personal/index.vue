@@ -38,33 +38,39 @@ export default {
         return {
             user: {},
             current_index: 0,
-            imageUrl: '../../../static/images/user.jpg'
+            avatar: '../../../static/images/user.jpg'
         };
     },
 
     computed: {
-        avatar() {
-            let pic = this.user.picture || '../../../static/images/user.jpg'
-            return `url(${pic})`
-        }
     },
 
     methods: {
         changeImage() {
-            var that = this;
-            wx.chooseImage({
-                count: 1, // 默认9
-                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-                sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-                success: function (res) {
-                    // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-                    var tempFilePaths = res.tempFilePaths
-                    that.imageUrl = tempFilePaths[0];
-                }
+            API.chooseImageAndUpload().then((data) => {
+                this.avatar = this.user.picture = data.imageURI
             })
+
+            // wx.chooseImage({
+            //     count: 1, // 默认9
+            //     sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+            //     sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+            //     success: (res) => {
+            //         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+            //         this.avatar = res.tempFilePaths[0]
+            //         let tempFile = res.tempFiles[0]
+
+            //         API.uploadBlobImage(tempFile).then((res) => {
+            //             if (res.code !== 200) {
+            //                 wx.showToast({title: '图片上传失败,' + res.msg})
+            //             } else {
+            //                 this.avatar = this.user.picture = res.data.imageURI
+            //             }
+            //         })
+            //     }
+            // })
         },
         setInfo(key, value) {
-            console.log()
             this.user[key] = value
         },
         submit() {
@@ -75,6 +81,9 @@ export default {
                 return
             }
 
+            wx.showLoading({
+                title: '上传中'
+            })
             API.request(
                 'put',
                 API.editUserInfo,
@@ -83,8 +92,10 @@ export default {
                 if (res.code !== 200) {
                     wx.showToast({title: '用户信息修改失败,' + res.msg})
                 } else {
+                    wx.hideLoading()
                     store.commit(type.EDITUSER, this.user)
                     wx.showToast({icon: 'success'})
+                    wx.navigateBack()
                 }
             })
         }

@@ -11,13 +11,13 @@
                 <label>club名称：</label> <input class="b-input" type="text" placeholder="请输入club名称" v-model="club.name"/>
                 </view>
                 <view class="bd-b">
-                    <span>个性签名：</span> <input class="b-input" type="text" placeholder="留个个性签名呗" v-model="club.phone"/>
+                    <span>个性签名：</span> <input class="b-input" type="text" placeholder="留个个性签名呗" v-model="club.signature"/>
                 </view>
                 <view class="bd-b">
                   <view>简介：</view>
-                <textarea name="" id=""  placeholder="请输入项目简介"></textarea>
+                <textarea placeholder="请输入项目简介" v-model="club.summary"></textarea>
                 </view>
-                <button class="submit">确定</button>
+                <button class="submit" formType="submit" :disabled="isPending">确定</button>
             </form>
        </section>
     </div>
@@ -25,6 +25,8 @@
 
 <script>
 import * as API from '@/utils/api'
+import store from '@/store'
+import type from '@/utils/mutitionsType'
 
 export default {
     data() {
@@ -35,34 +37,71 @@ export default {
                 signature: '',
                 summary: ''
             },
-            avatar: '../../../static/images/avatar.gif'
+            avatar: '../../../static/images/avatar.gif',
+            isPending: false
         }
     },
     computed: {
     },
     methods: {
-        formSubmit() {
-
+        createClub() {
+            wx.showLoading({
+                title: '创建中'
+            })
+            API.request(
+                'post',
+                API.createClub,
+                this.club
+            ).then(res => {
+                wx.hideLoading()
+                this.isPending = false
+                if (res.code !== 200) {
+                    wx.showToast({icon: 'none', title: '创建失败,' + res.msg})
+                    return
+                }
+                store.commit(type.AddClub, res.data.club)
+                wx.navigateTo({
+                    url: `/pages/details/details?id=${res.data.club._id}`
+                })
+            })
         },
-        uploadAvatar() {
-            wx.chooseImage({
-                count: 1, // 默认9
-                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-                sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-                success: (res) => {
-                    // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-                    this.avatar = res.tempFilePaths[0]
-                    let tempFile = res.tempFiles[0]
+        formSubmit() {
+            if (this.isPending) return
 
-                    API.uploadBlobImage(tempFile).then((res) => {
-                        if (res.code !== 200) {
-                            wx.showToast({title: '图片上传失败,' + res.msg})
-                        } else {
-                            this.avatar = this.club.picture = res.data.imageURI
-                        }
-                    })
+            wx.showModal({
+                title: '提示',
+                content: 'club名称将不能修改，确定提交？',
+                success: (res) => {
+                    if (res.confirm) {
+                        this.isPending = true
+                        this.createClub()
+                    }
                 }
             })
+        },
+        uploadAvatar() {
+            API.chooseImageAndUpload().then((data) => {
+                this.avatar = this.club.picture = data.imageURI
+            })
+
+            // wx.chooseImage({
+            //     count: 1, // 默认9
+            //     sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+            //     sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+            //     success: (res) => {
+            //         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+            //         this.avatar = res.tempFilePaths[0]
+            //         let tempFile = res.tempFiles[0]
+
+            //         API.uploadBlobImage(tempFile).then((res) => {
+            //             if (res.code !== 200) {
+            //                 wx.showToast({title: '图片上传失败,' + res.msg})
+            //             } else {
+            //                 this.avatar = this.club.picture = res.data.imageURI
+            //             }
+            //         })
+            //     }
+            // })
         }
     }
 }
