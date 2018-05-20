@@ -2,7 +2,15 @@
     <div class="details">
        <header>
            <div class="club_img" style="background-image: url(../../static/images/it/bg1.jpg);">
+
+               <!-- 普通会员 -->
                <view class="follow">关注</view>
+
+               <!-- 社团管理员 -->
+               <!-- <div class="info" @click="showInfo()">
+                   <span class="iconfont icon-36"></span>
+               </div> -->
+
            </div>
            <div class="club_msg">
                <div class="msg_left">
@@ -16,7 +24,7 @@
                    <div class="activity">
                        <span>活动 :</span> <span> 230</span>
                    </div>
-                   <div class="member">
+                   <div class="member" @click="toMember()">
                        <span>会员 :</span> <span> 502</span>
                    </div>
                </div>
@@ -37,6 +45,7 @@
             <!--活动列表-->
             <div class="activity_con" v-show="current_index==2">
                 <div class="activity_item">
+                    <div @click="toEvent()">
                       <div class="activity_top">
                            <div class="club_pic" style="background-image: url(../../static/images/clubsPic/it.jpg);">
                            </div>
@@ -48,8 +57,14 @@
                       <div class="activity_bottom">
                           PS设计大赛
                       </div>
+                    </div>
+                      <div class="sign_up" @click="toSignUpDes()">
+                          <span class="sign_up_member">报名人数:  58</span>
+                            <span class="enter iconfont icon-jiantou"></span>
+                      </div>
                 </div>
                 <div class="activity_item">
+                    <div @click="toEvent()">
                     <div class="activity_top">
                         <div class="club_pic" style="background-image: url(../../static/images/clubsPic/it.jpg);">
                         </div>
@@ -61,6 +76,12 @@
                     <div class="activity_bottom">
                         C语言编程大赛
                     </div>
+                    </div>
+
+                        <div class="sign_up" @click="toSignUpDes()">
+                          <span>报名人数:  58</span>
+                          <span class="enter iconfont icon-jiantou"></span>
+                      </div>
                 </div>
             </div>
              <!--课程介绍-->
@@ -78,8 +99,9 @@
         </section>
 
         <!--添加课程弹窗-->
-        <div class="mask" @click="add_course=false" v-show="add_course">
-            <div class="add_course" @click.stop="">
+        <div class="mask" @click="add_course=false;" v-show="add_course">
+            <!-- 添加课程 -->
+            <div class="add_course" @click.stop="" v-show="add_course">
                <view class="add_btn">添加课程</view>
                 <view>
                     <span>课程名:<input type="text"></span>
@@ -117,12 +139,41 @@ export default {
                 }
             ],
             current_index: 1,
-            add_course: false
+            add_course: false,
+            show_info: false
         };
     },
     methods: {
         tabChange(index) {
             this.current_index = index
+        },
+        showInfo() {
+            wx.showModal({
+                title: '提示',
+                content: '小猪佩奇申请加入社团啦',
+                success: function(res) {
+                    if (res.confirm) {
+                        console.log('用户点击确定')
+                    } else if (res.cancel) {
+                        console.log('用户点击取消')
+                    }
+                }
+            })
+        },
+        toMember() {
+            wx.navigateTo({
+                url: '/pages/member/member'
+            })
+        },
+        toSignUpDes() {
+            wx.navigateTo({
+                url: '/pages/member/member'
+            })
+        },
+        toEvent() {
+            wx.navigateTo({
+                url: '/pages/events/events'
+            })
         }
     },
     onShow() {
@@ -145,6 +196,19 @@ export default {
     position: relative;
 
 }
+.details header .club_img .info{
+
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    right: 12px;
+    top:8px;
+}
+.details  header .club_img .info .icon-36{
+      font-size: 40px;
+      color:red;
+}
+
 
 .details header .club_img .follow{
     display: inline-block;
@@ -225,6 +289,17 @@ export default {
 .details header .club_msg .msg_right .activity ,
 .details header .club_msg .msg_right .member{
     margin-top:20px;
+        width:90%;
+    height:36px;
+    border:1px solid #fff;
+    border-radius:25px;
+    text-align:center;
+    line-height:36px;
+}
+
+.details header .club_msg .msg_right .member{
+    border:1px solid #75b9eb;
+
 }
 .details section{
     width:100%;
@@ -324,6 +399,27 @@ export default {
     margin-top:10px;
 }
 
+.details section   .activity_con    .activity_item  .sign_up{
+    height:30px;
+    line-height:30px;
+   width:100%;
+    box-sizing: border-box;
+    /* border: 1px solid #f0f0f0; */
+    margin-top:5px;
+    font-size:16px;
+
+}
+
+.details section   .activity_con    .activity_item  .sign_up .sign_up_member{
+         line-height: 30px;
+         padding-left: 4px;
+}
+
+.details section   .activity_con    .activity_item  .sign_up  .enter{
+    float: right;
+   font-size: 24px;
+}
+
 .details section  .activity_con    .activity_item  .activity_top{
     width:100%;
     height:70px;
@@ -379,6 +475,25 @@ export default {
     box-sizing: border-box;
     padding:12px;
 }
+
+.details .mask .message{
+width:80%;
+    height:350px;
+    margin:100px auto;
+    background-color: #fff;
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding:12px;
+}
+details .mask .message  .title{
+    font-size: 14px;
+    text-align: center;
+    color:#ccc;
+
+}
+
+
+
 .details .mask .add_course .add_btn{
     text-align: center;
     font-size:20px;
