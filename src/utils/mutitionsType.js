@@ -1,6 +1,6 @@
 export default {
     // club
-    ADDCLUB: 'ADDCLUB',
+    AddClub: 'AddClub',
 
     // user
     EDITUSER: 'EDITUSER',

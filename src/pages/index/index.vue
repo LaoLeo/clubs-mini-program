@@ -132,7 +132,7 @@ export default {
     },
     methods: {
         add() {
-            store.commit(type.ADDCLUB);
+            store.commit(type.AddClub);
         },
         change(index) {
             this.current_index = index;
