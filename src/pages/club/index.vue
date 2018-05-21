@@ -15,7 +15,7 @@
         <div v-else>未加入其它club</div>
 
         <h1>推荐</h1>
-        <div class="list_item" v-for="(item,index) in clubsRecommend" :key="item._id" >
+        <div class="list_item" v-for="item in clubsRecommend" :key="item._id" >
             <div class="left" >
                 <div class="club_img" :style="{backgroundImage:'url('+item.picture+')'}"></div>
             </div>
@@ -24,7 +24,7 @@
                 <div class="slogan">{{item.signature}}</div>
             </div>
 
-            <div class="follow" @click="follow()">加入</div>
+            <div class="follow" @click="follow(item._id)">加入</div>
 
         </div>
     </div>
@@ -32,6 +32,8 @@
 <script>
 import store from '@/store'
 import type from '@/utils/mutitionsType'
+import * as API from '@/utils/api'
+import { showErrorModel } from '@/utils'
 
 export default {
     data() {
@@ -39,65 +41,7 @@ export default {
             user: {},
             clubs: [],
             clubsJoin: [],
-            clubsRecommend: [],
-            list: [
-                {
-                    name: '信息技术协会(IT协会)',
-                    slogan: '学在其中，乐在其中，爱在其中',
-                    imgsrc: '../../static/images/clubsPic/it.jpg',
-                    isfollow: 1,
-                    id: 1
-                },
-                {
-                    name: '跆拳道协会',
-                    slogan: '强身健体，锻炼技能，发展潜力',
-                    imgsrc: '../../static/images/clubsPic/taixie.jpg',
-                    isfollow: 1,
-                    id: 2
-                },
-                {
-                    name: '师范技能协会',
-                    slogan: '提高师范技能，实现讲台梦想',
-                    imgsrc: '../../static/images/clubsPic/shixie.jpg',
-                    isfollow: 0,
-                    id: 3
-                },
-                {
-                    name: '毽球协会',
-                    slogan: '学在其中，乐在其中，爱在其中',
-                    imgsrc: '../../static/images/clubsPic/jianqiu.jpg',
-                    isfollow: 0,
-                    id: 4
-                },
-                {
-                    name: '轮滑协会',
-                    slogan: '跟花式轮滑谈场刺激的恋爱',
-                    imgsrc: '../../static/images/clubsPic/lunhua.jpg',
-                    isfollow: 1,
-                    id: 5
-                },
-                {
-                    name: '自行车协会',
-                    slogan: '来一场收走就走的旅行',
-                    imgsrc: '../../static/images/clubsPic/btc.jpg',
-                    isfollow: 1,
-                    id: 6
-                },
-                {
-                    name: '计算机协会',
-                    slogan: '提高师范技能，实现讲台梦想',
-                    imgsrc: '../../static/images/clubsPic/jixie.jpg',
-                    isfollow: 0,
-                    id: 7
-                },
-                {
-                    name: '乒乓球',
-                    slogan: '提高师范技能，实现讲台梦想',
-                    imgsrc: '../../static/images/clubsPic/pingpang.jpg',
-                    isfollow: 1,
-                    id: 8
-                }
-            ]
+            clubsRecommend: []
         };
     },
     methods: {
@@ -108,13 +52,23 @@ export default {
             })
         },
 
-        follow(index) {
-            let that = this;
-            if (that.list[index].isfollow === 1) {
-                that.list[index].isfollow = 0;
-            } else {
-                that.list[index].isfollow = 1;
-            }
+        follow(clubId) {
+            wx.showLoading({title: '发送申请...'})
+            API.request(
+                'post',
+                API.createApplication,
+                {
+                    clubId,
+                    introduce: '你们社团很棒，我很想加入哦！'
+                }
+            ).then(res => {
+                wx.hideLoading()
+                if (res.code !== 200) {
+                    showErrorModel(res.code, res.msg)
+                    return
+                }
+                wx.showToast({title: '申请已发送'})
+            })
         }
 
     },

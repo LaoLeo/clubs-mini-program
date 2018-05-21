@@ -5,6 +5,7 @@ export default {
     GetClubsList: 'GetClubsList',
     GetClubsRelateSelf: 'GetClubsRelateSelf',
     GetClubsRecommend: 'GetClubsRecommend',
+    GetClubInfo: 'GetClubInfo',
 
     // user
     EDITUSER: 'EDITUSER',

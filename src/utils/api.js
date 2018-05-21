@@ -5,15 +5,30 @@ import { TOKEN } from '@/utils/config'
 export const userLogin = host + '/users/login'
 export const getUserInfo = host + '/users/getInfo'
 export const editUserInfo = host + '/users/edit'
+export const getClubsRelateSelf = host + '/users/clubsRelateSelf'
+export const getClubsRecommend = host + '/users/clubsRecommend'
+
 export const createClub = host + '/club/create'
+export const getClubList = host + '/club/list'
+export const getClubInfo = host + '/club/one'
+
 export const createActivity = host + '/activity/create'
 export const getActivities = host + '/activity/list'
 export const applicate = host + '/activity/participate'
 export const applicated = host + '/activity/participated'
 export const getActivity = host + '/activity/one'
-export const getClubList = host + '/club/list'
-export const getClubsRelateSelf = host + '/users/clubsRelateSelf'
-export const getClubsRecommend = host + '/users/clubsRecommend'
+export const getParticipants = host + '/activity/participants'
+export const deleteActivity = host + '/activity/remove'
+
+export const createApplication = host + '/application/create'
+export const getApplication = host + '/application/list'
+export const handleApplication = host + '/application/handle'
+
+export const createCourse = host + '/course/create'
+export const deleteCourse = host + '/course/remove'
+
+export const sendNotice = host + '/notice/create'
+
 const saveBlobImage = host + '/image/saveBlobUpload'
 
 export const request = (method, url, data = {}, header = {}) => {

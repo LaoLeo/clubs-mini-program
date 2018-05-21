@@ -12,15 +12,6 @@
                 {{ activity.content }}
             </view>
             <view class="picture" v-for="poster in last_posters" :key="poster" :style="{backgroundImage: 'url('+ poster +');'}"></view>
-            <!-- <view class="description">
-                  我们的春游行程满满，活动丰富多彩呦，那你确定报名了吗？
-            </view>
-            <view>
-                <div class="picture" style="background-image: url(../../../static/images/it/bg1.jpg);"></div>
-            </view>
-            <view class="description">
-                 好啦好啦，小可爱们，期待我们的相约呦
-            </view> -->
 
             <view class="read"><span>阅读量：</span><span>122</span></view>
         </section>
@@ -34,6 +25,7 @@
 import store from '@/store'
 import * as API from '@/utils/api'
 import { showErrorModel } from '@/utils'
+import { NEED_TO_BIND_PHONE } from '@/utils/config'
 
 export default {
     data() {
@@ -62,7 +54,15 @@ export default {
                 }
             ).then(res => {
                 if (res.code !== 200) {
-                    showErrorModel(res.code, res.msg)
+                    if (res.code === NEED_TO_BIND_PHONE) {
+                        showErrorModel(res.code, res.msg, '前往', () => {
+                            wx.navigateTo({
+                                url: '/pages/personal/personal'
+                            })
+                        })
+                    } else {
+                        showErrorModel(res.code, res.msg)
+                    }
                     return
                 }
                 wx.showToast({

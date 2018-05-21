@@ -18,10 +18,17 @@ export function formatTime (date) {
     return `${t1} ${t2}`
 }
 
-export function showErrorModel(code, msg) {
+export function showErrorModel(title, msg, confirmText = '确定', successCallback) {
+    if (typeof title === 'number') title = String(title)
     wx.showModal({
-        title: code,
+        title: title,
         content: msg,
-        showCancel: false
+        showCancel: false,
+        confirmText: confirmText,
+        success: (res) => {
+            if (res.confirm) {
+                successCallback && successCallback()
+            }
+        }
     })
 }

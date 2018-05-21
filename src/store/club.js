@@ -8,7 +8,8 @@ export default {
         activities: [],
         clubs: [],
         clubsJoin: [],
-        clubsRecommend: []
+        clubsRecommend: [],
+        clubDetail: {}
     },
     mutations: {
         [type.AddClub](state, data) {
@@ -26,6 +27,9 @@ export default {
         },
         [type.GetClubsRecommend](state, data) {
             state.clubsRecommend = data.clubs_recommend
+        },
+        [type.GetClubInfo](state, data) {
+            state.clubDetail = data
         }
     },
     actions: {
@@ -70,6 +74,20 @@ export default {
                 }
                 commit(type.GetClubsRecommend, res.data)
                 cb && cb(res.data)
+            })
+        },
+        [type.GetClubInfo]({commit}, preload) {
+            API.request(
+                'get',
+                API.getClubInfo,
+                preload.data
+            ).then(res => {
+                if (res.code !== 200) {
+                    showErrorModel(res.code, res.msg)
+                    return
+                }
+                commit(type.GetClubInfo, res.data)
+                preload.cb && preload.cb(res.data)
             })
         }
     }

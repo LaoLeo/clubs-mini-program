@@ -63,7 +63,7 @@ export default {
         },
         toClubAdminPage() {
             wx.navigateTo({
-                url: '/pages/details/details'
+                url: `/pages/details/details?myClub=1`
             })
         },
         toMyActivity() {
