@@ -6,6 +6,14 @@ export const userLogin = host + '/users/login'
 export const getUserInfo = host + '/users/getInfo'
 export const editUserInfo = host + '/users/edit'
 export const createClub = host + '/club/create'
+export const createActivity = host + '/activity/create'
+export const getActivities = host + '/activity/list'
+export const applicate = host + '/activity/participate'
+export const applicated = host + '/activity/participated'
+export const getActivity = host + '/activity/one'
+export const getClubList = host + '/club/list'
+export const getClubsRelateSelf = host + '/users/clubsRelateSelf'
+export const getClubsRecommend = host + '/users/clubsRecommend'
 const saveBlobImage = host + '/image/saveBlobUpload'
 
 export const request = (method, url, data = {}, header = {}) => {
@@ -53,7 +61,7 @@ export const chooseImageAndUpload = () => {
             sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
             success: (res) => {
                 // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-                this.avatar = res.tempFilePaths[0]
+                // this.avatar = res.tempFilePaths[0]
                 let tempFile = res.tempFiles[0]
 
                 uploadBlobImage(tempFile).then((res) => {

@@ -1,24 +1,45 @@
 <template>
-  <div class="lists">
-   <div class="list_item" v-for="(item,index) in list" :key="item.id" >
-        <div class="left" >
-           <div class="club_img" :style="{backgroundImage:'url('+item.imgsrc+')'}"></div>
+    <div class="lists">
+        <h1>已加入</h1>
+        <div v-if="clubsJoin.length > 0">
+            <div class="list_item" v-for="(item,index) in clubsJoin" :key="item._id" >
+                <div class="left" >
+                    <div class="club_img" :style="{backgroundImage:'url('+item.picture+')'}"></div>
+                </div>
+                <div class="right" @click='toDetail(item._id)'>
+                    <div class="name">{{item.name}}</div>
+                    <div class="slogan">{{item.signature}}</div>
+                </div>
+            </div>
         </div>
-        <div class="right" @click='toDetail(item.id)'>
-            <div class="name">{{item.name}}</div>
-            <div class="slogan">{{item.slogan}}</div>
+        <div v-else>未加入其它club</div>
+
+        <h1>推荐</h1>
+        <div class="list_item" v-for="(item,index) in clubsRecommend" :key="item._id" >
+            <div class="left" >
+                <div class="club_img" :style="{backgroundImage:'url('+item.picture+')'}"></div>
+            </div>
+            <div class="right" @click='toDetail(item._id)'>
+                <div class="name">{{item.name}}</div>
+                <div class="slogan">{{item.signature}}</div>
+            </div>
+
+            <div class="follow" @click="follow()">加入</div>
+
         </div>
-
-        <div class="follow" v-if="item.isfollow==1" @click="follow(index)">关注</div>
-        <div class="follow unfollow" v-else @click="follow(index)">已关注</div>
-
     </div>
-  </div>
 </template>
 <script>
+import store from '@/store'
+import type from '@/utils/mutitionsType'
+
 export default {
     data() {
         return {
+            user: {},
+            clubs: [],
+            clubsJoin: [],
+            clubsRecommend: [],
             list: [
                 {
                     name: '信息技术协会(IT协会)',
@@ -89,13 +110,24 @@ export default {
 
         follow(index) {
             let that = this;
-            if (that.list[index].isfollow == 1) {
+            if (that.list[index].isfollow === 1) {
                 that.list[index].isfollow = 0;
             } else {
                 that.list[index].isfollow = 1;
             }
         }
 
+    },
+    created() {
+        store.dispatch(type.GetClubsList, () => {
+            this.clubs = store.state.club.clubs
+        })
+        store.dispatch(type.GetClubsRelateSelf, () => {
+            this.clubsJoin = [...store.state.club.clubsJoin]
+        })
+        store.dispatch(type.GetClubsRecommend, () => {
+            this.clubsRecommend = [...store.state.club.clubsRecommend]
+        })
     }
 };
 </script>

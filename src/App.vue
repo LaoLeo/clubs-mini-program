@@ -55,6 +55,9 @@ export default {
                 } else {
                     store.commit(type.EDITUSER, res.data.user)
                     console.log(res.data.user)
+                    if (res.data.user.clubs_own.length > 0) {
+                        store.commit(type.AddClub, res.data.user.clubs_own[0])
+                    }
                 }
             })
         }

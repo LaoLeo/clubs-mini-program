@@ -1,62 +1,39 @@
 <template>
   <section>
       <!--活动-->
-      <div class="box" v-for="item in lists" v-show="current_index==1" @click="toEvent(item.id)">
+      <div class="box" v-for="item in activities" :key="item._id" @click="toEvent(item._id)">
           <div class="headimg">
-              <div class="picture"  :style="{backgroundImage:'url('+item.headimg+')'}">
+              <div class="picture"  :style="{backgroundImage:'url('+item.author.picture+')'}">
 
               </div>
               <div class="club_name">
-                  <view class="name">{{item.club_name}}</view>
-                  <view class="date"> {{item.date}}</view>
+                  <view class="name">{{item.author.name}}</view>
+                  <view class="date"> {{item.meta.createDate}}</view>
+              </div>
+              <div class="text_warnign" v-if="item.status === ACTIVITY_INVALID">
+                  已失效
               </div>
           </div>
-          <div class="content"  :style="{backgroundImage:'url('+item.bgimg+')'}">
+          <div class="content"  :style="{backgroundImage:'url('+item.posters[0]+')'}">
               <view class="message">{{item.title}}</view>
           </div>
-          <div class="description">{{item.description}}</div>
+          <div class="description">{{item.content}}</div>
       </div>
   </section>
 </template>
 
 <script>
-import * as API from '@/utils/api'
+import type from '@/utils/mutitionsType'
+import store from '@/store'
+import { ACTIVITY_INVALID } from '@/utils/config'
 
 export default {
     data() {
         return {
-            lists: [
-                {
-                    id: 1,
-                    headimg: '../../static/images/clubsPic/it.jpg',
-                    bgimg: '../../static/images/it/bg1.jpg',
-                    club_name: 'IT协会',
-                    date: '五分钟前',
-                    description: '距离活动开始还剩5天',
-                    title: 'IT七岁啦啦啦啦啦'
-                },
-                {
-                    id: 2,
-                    headimg: '../../static/images/clubsPic/taixie.jpg',
-                    bgimg: '../../static/images/taixie/bg.jpg',
-                    club_name: '跆拳道协会',
-                    date: '10分钟前',
-                    description: '距离活动开始还剩2天',
-                    title: '一场炫酷的比武呵呵哈嘿'
-                },
-                {
-                    id: 3,
-                    headimg: '../../static/images/clubsPic/it.jpg',
-                    bgimg: '../../static/images/it/bg1.jpg',
-                    club_name: 'IT协会',
-                    date: '五分钟前',
-                    description: '距离活动开始还剩5天',
-                    title: 'IT七岁啦啦啦啦啦'
-                }
-            ],
-            current_index: 1,
+            activities: [],
             praise: 100,
-            isPrais: 1
+            isPrais: 1,
+            ACTIVITY_INVALID
         }
     },
     computed: {
@@ -64,7 +41,7 @@ export default {
     methods: {
         toEvent(id) {
             wx.navigateTo({
-                url: '/pages/events/events?id=' + id
+                url: `/pages/events/events?id=${id}&isParticipate=1`
             })
         },
         Prais() {
@@ -74,6 +51,11 @@ export default {
                 that.isPrais = 0;
             }
         }
+    },
+    created() {
+        store.dispatch(type.GetParticipateActivities, () => {
+            this.activities = store.state.user.participate_activities
+        })
     }
 }
 </script>
@@ -140,6 +122,13 @@ export default {
             font-size:10px;
             color: #333;
             margin-top:6px;
+        }
+        .headimg .text_warnign {
+            float:right;
+            margin-top:18px;
+            color:red;
+            font-size:16px;
+            transform:rotateZ(15deg);
         }
         section .box .content{
             width:100%;

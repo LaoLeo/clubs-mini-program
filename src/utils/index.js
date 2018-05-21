@@ -17,3 +17,11 @@ export function formatTime (date) {
 
     return `${t1} ${t2}`
 }
+
+export function showErrorModel(code, msg) {
+    wx.showModal({
+        title: code,
+        content: msg,
+        showCancel: false
+    })
+}

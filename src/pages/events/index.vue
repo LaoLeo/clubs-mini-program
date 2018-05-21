@@ -1,19 +1,18 @@
 <template>
     <div class="content">
          <header>
-              <view class="title">IT春游大事件</view>
+              <view class="title">{{ activity.title }}</view>
               <view class="date">
-                  <span>作者:  </span> <span>小T哥</span><span class="time">2018/04/25</span>
+                    <span>{{ activity.author.name }}&nbsp;发表于：</span><span class="time">{{ activity.meta.updateDate }}</span>
               </view>
          </header>
         <section>
-                <view class="description">
-                    各位小可爱们，我们IT协会一年一度的春游马上就要启动了，回想去去年的大夫山骑行和烧烤，大家是不是还历历在目呢，今年我们的春游准备去阳江海边走一走，浪一浪噢，体验一下海边的风，海边的太阳以及海边的浪，你，是否行动了呢，心动不如行动，赶紧报名呦
-                </view>
-                <view>
-                     <div class="picture" style="background-image: url(../../../static/images/it/bg.jpg);"></div>
-                </view>
+            <view class="picture" :style="{backgroundImage: 'url('+ first_poster +');'}"></view>
             <view class="description">
+                {{ activity.content }}
+            </view>
+            <view class="picture" v-for="poster in last_posters" :key="poster" :style="{backgroundImage: 'url('+ poster +');'}"></view>
+            <!-- <view class="description">
                   我们的春游行程满满，活动丰富多彩呦，那你确定报名了吗？
             </view>
             <view>
@@ -21,31 +20,93 @@
             </view>
             <view class="description">
                  好啦好啦，小可爱们，期待我们的相约呦
-            </view>
+            </view> -->
+
             <view class="read"><span>阅读量：</span><span>122</span></view>
         </section>
+        <view class="btn-group" v-if="canApplicate">
+            <div class="btn" @tap="applicate()">报名</div>
+        </view>
     </div>
 </template>
 
 <script>
+import store from '@/store'
+import * as API from '@/utils/api'
+import { showErrorModel } from '@/utils'
 
 export default {
     data() {
         return {
+            activity: {},
+            first_poster: '',
+            last_posters: []
         };
     },
 
-    components: {
+    computed: {
+        canApplicate() {
+            if (parseInt(this.activity.type) === 0) return false
+
+            return true
+        }
     },
 
     methods: {
+        applicate() {
+            API.request(
+                'post',
+                API.applicate,
+                {
+                    activityId: this.activity._id
+                }
+            ).then(res => {
+                if (res.code !== 200) {
+                    showErrorModel(res.code, res.msg)
+                    return
+                }
+                wx.showToast({
+                    title: '报名成功',
+                    success: () => {
+                        setTimeout(() => {
+                            wx.navigateBack()
+                        }, 2000)
+                    }
+                })
+            })
+        }
     },
 
     created() {
     },
 
-    onShow() {
+    onLoad() {
         console.log(this.$root.$mp.query)
+        let query = this.$root.$mp.query
+        let isParticipate = query.isParticipate
+        if (!isParticipate) {
+            let index = query.index
+            this.activity = store.state.user.activities[index]
+            this.first_poster = this.activity.posters[0]
+            this.last_posters = this.activity.posters.length > 1 ? this.activity.posters.slice(1) : []
+        } else {
+            API.request(
+                'get',
+                API.getActivity,
+                {
+                    aId: query.id
+                }
+            ).then(res => {
+                if (res.code !== 200) {
+                    showErrorModel(res.code, res.msg)
+                    return
+                }
+
+                this.activity = res.data.activity
+                this.first_poster = this.activity.posters[0]
+                this.last_posters = this.activity.posters.length > 1 ? this.activity.posters.slice(1) : []
+            })
+        }
     }
 };
 </script>
@@ -93,5 +154,19 @@ export default {
         font-size:14px;
         color:#666;
         margin-top:10px;
+    }
+    .btn-group {
+        display: flex;
+    }
+    .btn-group .btn{
+        flex: 1;
+        width:120px;
+        height:36px;
+        text-align: center;
+        line-height:36px;
+        border-radius: 18px;
+        margin:20px auto;
+        background-color: #75b9eb;
+        color: #ffffff;
     }
 </style>
