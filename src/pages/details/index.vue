@@ -32,18 +32,18 @@
        </header>
         <section>
             <ul>
-                <li @click="tabChange(1)" :class="{ active: current_index==1 }" >简介</li>
-                <li @click="tabChange(2)" :class="{ active: current_index==2 }" >活动</li>
-                <li @click="tabChange(3)" :class="{ active: current_index==3 }" >课程</li>
+                <li @click="tabChange(1)" :class="{ active: current_index===1 }" >简介</li>
+                <li @click="tabChange(2)" :class="{ active: current_index===2 }" >活动</li>
+                <li @click="tabChange(3)" :class="{ active: current_index===3 }" >课程</li>
             </ul>
 
              <!--社团简介-->
-            <div class="description" v-show="current_index==1">
+            <div class="description" v-show="current_index===1">
                 IT信息技术协会是以信息技术为基础，致力于网络技术、编程技术、多媒体技术的开发、研究、培训及实践的综合性学术性社团。协会宗旨：普及IT知识，创新科技成果。协会口号：学在其中，乐在其中，爱在其中。我们是一个专业的学习平台，一个为广大同学提供学习、实践、交流机会的平台。
             </div>
 
             <!--活动列表-->
-            <div class="activity_con" v-show="current_index==2">
+            <div class="activity_con" v-show="current_index===2">
                 <div class="activity_item">
                     <div @click="toEvent()">
                       <div class="activity_top">
@@ -85,7 +85,7 @@
                 </div>
             </div>
              <!--课程介绍-->
-            <div class="course_con" v-show="current_index==3">
+            <div class="course_con" v-show="current_index===3">
                 <div>
                     <span>这里可以编辑本学期的课程噢</span>
                     <span class="edit iconfont icon-bianji" @click="add_course=true"></span>

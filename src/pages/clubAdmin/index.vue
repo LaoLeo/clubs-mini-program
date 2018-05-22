@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import * as API from '@/utils/api'
+// import * as API from '@/utils/api'?
 
 export default {
     data() {
