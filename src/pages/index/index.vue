@@ -14,8 +14,8 @@
           <!--活动-->
           <div class="box" v-for="(item, index) in activities" :key="item._id" v-show="current_index==1" @click="toEvent(index)">
                 <div class="headimg">
-                    <div class="picture" :style="{backgroundImage:'url('+item.author.picture+')'}">
-                    </div>
+                    <div class="picture" v-if="item.author.picture" :style="{backgroundImage:'url('+item.author.picture+')'}">  </div>
+                          <div class="picture" v-else style="background-image: url(../../static/images/avatar.gif);">  </div>
                     <div class="club_name">
                            <view class="name">{{item.author.name}}</view>
                            <view class="date"> {{item.meta.updateDate}}</view>

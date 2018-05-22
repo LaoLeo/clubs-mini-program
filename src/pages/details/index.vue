@@ -15,7 +15,8 @@
            <div class="club_msg">
                <div class="msg_left">
                    <div class="base_img">
-                        <div class="club_headimg" :style="{backgroundImage:'url('+club.picture+')'}"></div>
+                        <div class="club_headimg" v-if="club.picture" :style="{backgroundImage:'url('+club.picture+')'}"></div>
+                          <div class="club_headimg" v-else style="background-image: url(../../static/images/avatar.gif);"></div>
                          <div class="club_name">{{ club.name }}</div>
                    </div>
                    <div class="slogan">{{ club.signature }}</div>
@@ -48,8 +49,13 @@
                 <div class="activity_item" v-for="activity in club.activities" :key="activity._id">
                     <div @click="toEvent(activity._id)">
                         <div class="activity_top">
-                            <div class="club_pic" :style="{backgroundImage: 'url('+ club.picture +')'}">
+                            <div class="club_pic"  v-if="club.picture" :style="{backgroundImage: 'url('+ club.picture +')'}">
+
                             </div>
+                               <div class="club_pic" v-else style="background-image: url(../../static/images/avatar.gif);">
+
+                            </div>
+
                             <div class="club_nick">
                                 <div class="club">{{ club.name }}</div>
                                 <div class="date">{{ activity.meta.createDate }}</div>
@@ -73,7 +79,7 @@
                 <div class="course" v-for="course in club.courses">
                     <div class="course_name">{{course.title}}</div>
                     <div class="course_content"><span>内容:  </span>{{course.content}}</div>
-                    <div class="course_time" v-if="course.startTime"><span>时间:  </span>{{course.startTime + '-' + course.endTime}}</div>
+                    <!-- <div class="course_time" v-if="course.startTime"><span>时间:  </span>{{course.startTime + '-' + course.endTime}}</div> -->
                     <button class="btn-delete" @tap="deleteCourse(course._id, i)">删除</button>
                 </div>
             </div>
@@ -477,7 +483,7 @@ export default {
     box-sizing: border-box;
     padding-left:12px;
     width:100%;
-    height:100px;
+    height:80px;
     border: 1px solid #d0d0d0;
     margin-top:10px;
     color: #333333;
@@ -485,7 +491,7 @@ export default {
 .details section  .course .btn-delete {
     position: absolute;
     right: 10px;
-    top: 10px;
+    top: 25px;
 }
 .details section .course_con .course_name{
     font-size:20px;
@@ -602,10 +608,15 @@ export default {
 .details section  .activity_con    .activity_item  .activity_bottom{
     width:100%;
     height:120px;
+     -webkit-background-size:cover;
+    background-size:cover;
+    background-position: center center;
+    background-repeat: no-repeat;
     background-color: #cff;
     font-size:36px;
     line-height:120px;
     text-align: center;
+
 }
 .details .mask{
     width:100%;
@@ -718,6 +729,18 @@ details .mask .message  .title{
     background-color: #75b9eb;
     color: #ffffff;
 
+}
+
+.btn-delete{
+    width: 70px;
+    height:30px;
+    border-radius: 15px;
+    background: #fff;
+    border: 1px solid #75b9eb;
+    font-size: 14px;
+    color:#75b9eb;
+    line-height: 30px;
+    text-align: center;
 }
 </style>
 

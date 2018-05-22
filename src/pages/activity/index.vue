@@ -3,7 +3,8 @@
         <div v-show="current_index==1" >
             <view>
                 <div class="headimg">
-                    <div class="picture"  :style="{backgroundImage:'url('+club.picture+')'}"></div>
+                    <div class="picture"  v-if="club.picture" :style="{backgroundImage:'url('+club.picture+')'}"></div>
+                       <div class="picture" v-else style="background-image: url(../../static/images/avatar.gif);"> </div>
                     <div class="club_name">
                            <view class="name">{{club.name}}</view>
                     </div>
@@ -11,7 +12,7 @@
             </view>
             <picker :value="index" :range="pickerRange" @change="bindPickerChange($event)">
                 <view class="picker">
-                报名类型：{{pickerRange[activiy.type]}}
+                报名类型：{{pickerRange[activiy.type]}}  <span class="iconfont icon-jiantou"></span>
                 </view>
             </picker>
             <view>
@@ -150,12 +151,12 @@ export default {
         display: flex;
     }
     .btn-group .release{
-        flex: 1;
-        width:120px;
-        height:36px;
+        /* flex: 1; */
+        width:100px;
+        height:30px;
         text-align: center;
-        line-height:36px;
-        border-radius: 18px;
+        line-height:30px;
+        border-radius: 15px;
         margin:20px auto;
         background-color: #75b9eb;
         color: #ffffff;
@@ -256,5 +257,10 @@ export default {
     .headimg .club_name .name{
         font-size:14px;
         color: #000000;
+    }
+    .picker .iconfont{
+        display: inline-block;
+          font-size: 24px;
+          transform: rotate(90deg);
     }
 </style>
