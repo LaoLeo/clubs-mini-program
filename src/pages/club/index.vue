@@ -1,7 +1,7 @@
 <template>
     <div class="lists">
-        <h1>已加入</h1>
         <div v-if="clubsJoin.length > 0">
+            <h1 style="margin-left:12px;">已加入</h1>
             <div class="list_item" v-for="(item,index) in clubsJoin" :key="item._id" >
                 <div class="left" >
                     <div class="club_img" :style="{backgroundImage:'url('+item.picture+')'}"></div>
@@ -12,9 +12,9 @@
                 </div>
             </div>
         </div>
-        <div v-else>未加入其它club</div>
+        <!-- <div v-else> 未加入其它社团</div> -->
 
-        <h1>推荐</h1>
+        <h1 style="margin-left:12px">推荐社团：</h1>
         <div class="list_item" v-for="item in clubsRecommend" :key="item._id" >
             <div class="left" >
                 <div class="club_img" :style="{backgroundImage:'url('+item.picture+')'}"></div>

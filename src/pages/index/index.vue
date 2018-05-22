@@ -21,27 +21,32 @@
                            <view class="date"> {{item.meta.updateDate}}</view>
                     </div>
                 </div>
-                <div class="content"  :style="{backgroundImage:'url('+item.posters[0]+')'}">
+                <div class="content"  v-if="item.posters[0]" :style="{backgroundImage:'url('+item.posters[0]+')'}">
+                     <view class="message">{{item.title}}</view>
+                </div>
+                  <div class="content"  v-else style="background-image: url(../../static/images/bg.jpg);">
                      <view class="message">{{item.title}}</view>
                 </div>
                 <div class="description">{{item.content}}</div>
           </div>
+
           <!--动态-->
-          <div class="box" v-show="current_index==2" >
+          <div class="box" v-for="(item,index) in dymanic" :key="item.id"  v-show="current_index==2">
               <div class="headimg">
-                  <div class="picture" style="background-image: url(../../static/images/user2.jpg);">
+                  <div class="picture" :style="{backgroundImage:'url('+item.headimg+')'}">
 
                   </div>
+
                   <div class="club_name">
-                      <view class="name">一只酸奶牛</view>
-                      <view class="date">2018/03/22</view>
+                      <view class="name">{{item.name}}</view>
+                      <view class="date">{{item.time}}</view>
                   </div>
               </div>
               <div class="content1" >
-                  <div class="mood">今天怎么不开心今天怎么不开心今天怎么不开心今天怎么不开心</div>
+                  <div class="mood">{{item.content}}</div>
                   <div class="photo">
                       <ul>
-                          <li v-for="(index, item) in 9" :key="index">{{index}}</li>
+                          <li v-for="pic in item.picture" :style="{backgroundImage:'url('+pic+')'}"></li>
                       </ul>
                   </div>
                   <div class="comments">
@@ -52,12 +57,12 @@
 
                        <span @click="toDetails()" >
                            <span class="iconfont icon-pinglun" ></span>
-                           <span >222</span>
+                           <span> 0 </span>
                        </span>
                   </div>
               </div>
           </div>
-          <div class="box" v-show="current_index==2" >
+          <!-- <div class="box"  v-show="current_index==2" >
               <div class="headimg">
                   <div class="picture" style="background-image: url(../../static/images/user.jpg);">
 
@@ -81,7 +86,7 @@
                       <span>222</span>
                   </div>
               </div>
-          </div>
+          </div> -->
       </section>
 
   </div>
@@ -98,9 +103,36 @@ export default {
             activities: [],
             total: 0,
             current_index: 1,
-            praise: 100,
-            isPrais: 1
-        };
+            praise: 0,
+            isPrais: 1,
+            dymanic: [
+                {
+                    id: 1,
+                    name: '酸奶益力多',
+                    headimg: '../../static/images/user2.jpg',
+                    time: '2018/05/22 21:24',
+                    content: '生活需要点仪式感。。。',
+                    picture: [
+                        '../../static/images/lunhua.jpg',
+                        '../../static/images/trip.jpg'
+                    ],
+                    praise: 2,
+                    comment: 5
+                },
+                {
+                    id: 2,
+                    name: '优益CCCCCCC',
+                    headimg: '../../static/images/user2.jpg',
+                    time: '2018/05/22 21:24',
+                    content: '开心快乐迷迷糊糊的便过去',
+                    picture: [
+                        '../../static/images/lunhua.jpg',
+                        '../../static/images/trip.jpg'
+                    ],
+                    praise: 6,
+                    comment: 5
+                }
+            ] };
     },
     computed: {
     },
@@ -284,11 +316,12 @@ section .box .headimg .picture{
         width:80px;
         height:80px;
         float: left;
+        background-size: cover;
+        -webkit-background-size:cover;
         margin-right:15px;
         margin-top:10px;
-        text-align: center;
-        border: 1px solid #75b9eb;
-        line-height:80px;
+        /* border: 1px solid #75b9eb; */
+
     }
     section .box .content1 .comments{
         width:100%;

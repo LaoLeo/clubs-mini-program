@@ -13,7 +13,7 @@
             </view>
             <view class="picture" v-for="poster in last_posters" :key="poster" :style="{backgroundImage: 'url('+ poster +');'}"></view>
 
-            <view class="read"><span>阅读量：</span><span>122</span></view>
+            <view class="read"><span>阅读量：</span><span>0</span></view>
         </section>
         <view class="btn-group" v-if="canApplicate">
             <div class="btn" @tap="applicate()">报名</div>
@@ -156,17 +156,19 @@ export default {
         margin-top:10px;
     }
     .btn-group {
+        width:100%;
         display: flex;
     }
     .btn-group .btn{
-        flex: 1;
+        /* flex: 1; */
         width:120px;
         height:36px;
         text-align: center;
         line-height:36px;
         border-radius: 18px;
         margin:20px auto;
-        background-color: #75b9eb;
+        background-color: #76b9eb;
         color: #ffffff;
+        margin: 60px auto;
     }
 </style>

@@ -23,10 +23,10 @@
                </div>
                <div class="msg_right">
                    <div class="activity">
-                       <span>活动 :</span> <span> {{ club.activities.length }}</span>
+                       <span>活动 : </span> <span v-if="club.activities.length>0"> {{ club.activities.length }}</span><span v-else> 0</span>
                    </div>
                    <div class="member" :class="{'border-none': !isOwner}" @click="toMember()">
-                       <span>会员 :</span> <span> {{ club.members.length }}</span>
+                       <span>会员 : </span> <span v-if="club.members.length "> {{ club.members.length }}</span> <span v-else> 0</span>
                    </div>
                </div>
            </div>
@@ -61,11 +61,14 @@
                                 <div class="date">{{ activity.meta.createDate }}</div>
                             </div>
                         </div>
-                        <div class="activity_bottom" :style="{backgroundImage: 'url('+ activity.posters[0] +')'}"></div>
-                        <button class="btn-delete" @tap.stop="deleteActivity(activity._id, aIndex)">删除</button>
+                             <div class="activity_title" >{{activity.title}}</div>
+
+                        <div class="activity_bottom"  v-if="activity.posters[0]" :style="{backgroundImage: 'url('+ activity.posters[0] +')'}"></div>
+                        <div class="activity_bottom" v-else style="background-image: url(../../static/images/bg.jpg);">   </div>
+                        <button class="btn-delete" v-if="isOwner" @tap.stop="deleteActivity(activity._id, aIndex)">删除</button>
                     </div>
                     <div class="sign_up" @click="toSignUpDes(activity._id, activity.participants.length)">
-                        <span class="sign_up_member">报名人数:  {{ activity.participants.length }}</span>
+                        <span class="sign_up_member">报名人数:</span>  <span v-if="activity.participants.length>0">{{ activity.participants.length }}</span><span v-else>  0 </span>
                         <span class="enter iconfont icon-jiantou" v-if="activity.participants.length > 0"></span>
                     </div>
                 </div>
@@ -80,7 +83,7 @@
                     <div class="course_name">{{course.title}}</div>
                     <div class="course_content"><span>内容:  </span>{{course.content}}</div>
                     <!-- <div class="course_time" v-if="course.startTime"><span>时间:  </span>{{course.startTime + '-' + course.endTime}}</div> -->
-                    <button class="btn-delete" @tap="deleteCourse(course._id, i)">删除</button>
+                    <button class="btn-delete" v-if="isOwner" @tap="deleteCourse(course._id, i)">删除</button>
                 </div>
             </div>
         </section>
@@ -166,6 +169,7 @@ export default {
             })
         },
         createCourse() {
+            let that = this;
             this.add_course = false
             if (!this.course.title || !this.course.content) return
             API.request(
@@ -176,6 +180,7 @@ export default {
                     content: this.course.content
                 }
             ).then(res => {
+                that.course = {};
                 if (res.code !== 200) {
                     showErrorModel(res.code, res.msg)
                     return
@@ -245,7 +250,7 @@ export default {
         },
         tabChange(index) {
             this.current_index = index
-
+            console.log(this.application);
             if (index === 4 && this.application.length === 0) {
                 API.request(
                     'get',
@@ -405,7 +410,12 @@ export default {
     font-weight:bolder;
 }
 
-
+.activity_title{
+    line-height: 36px;
+    font-size: 16px;
+    color:#333333;
+    margin-left: 4px;
+}
 .details header .club_msg .msg_left .slogan{
     width:200px;
     font-size:14px;
@@ -629,7 +639,7 @@ export default {
 }
 .details .mask .add_course{
     width:80%;
-    height:350px;
+    height:300px;
     margin:100px auto;
     background-color: #fff;
     border-radius: 5px;

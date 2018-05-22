@@ -3,9 +3,8 @@
       <!--活动-->
       <div class="box" v-for="item in activities" :key="item._id" @click="toEvent(item._id)">
           <div class="headimg">
-              <div class="picture"  :style="{backgroundImage:'url('+item.author.picture+')'}">
-
-              </div>
+              <div class="picture"  v-if="item.author.picture"  :style="{backgroundImage:'url('+item.author.picture+')'}">  </div>
+              <div class="picture"  v-else style="background-image: url(../../static/images/avatar.gif);" >  </div>
               <div class="club_name">
                   <view class="name">{{item.author.name}}</view>
                   <view class="date"> {{item.meta.createDate}}</view>
@@ -14,7 +13,10 @@
                   已失效
               </div>
           </div>
-          <div class="content"  :style="{backgroundImage:'url('+item.posters[0]+')'}">
+          <div class="content"  v-if="item.posters[0]" :style="{backgroundImage:'url('+item.posters[0]+')'}">
+              <view class="message">{{item.title}}</view>
+          </div>
+            <div class="content"  v-else style="background-image: url(../../static/images/bg.jpg);">
               <view class="message">{{item.title}}</view>
           </div>
           <div class="description">{{item.content}}</div>

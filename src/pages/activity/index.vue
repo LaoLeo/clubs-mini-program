@@ -67,7 +67,8 @@ export default {
             },
             current_index: 0,
             imageUrl: [],
-            pickerRange: ['不用报名', '允许所有人报名', '仅允许会员报名']
+            pickerRange: ['不用报名', '允许所有人报名', '仅允许会员报名'],
+            user: {}
         };
     },
 
@@ -129,8 +130,12 @@ export default {
     },
 
     onShow() {
-        this.club = store.state.user.user.clubs_own[0]
-        this.current_index = parseInt(this.$root.$mp.query.index)
+        wx.getStorage({
+            key: 'key',
+            success: function(res) {
+                console.log(res.data, '00000000000000')
+            }
+        })
 
         if (this.current_index === 2) {
             wx.setNavigationBarTitle({title: '发表动态'})

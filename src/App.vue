@@ -54,6 +54,10 @@ export default {
                     wx.showToast({title: '用户信息获取失败,' + res.msg})
                 } else {
                     store.commit(type.EDITUSER, res.data.user)
+                    wx.setStorage({
+                        key: "user",
+                        data: res.data.user
+                    });
                     console.log(res.data.user)
                     if (res.data.user.clubs_own.length > 0) {
                         store.commit(type.AddClub, res.data.user.clubs_own[0])
