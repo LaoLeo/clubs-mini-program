@@ -44,7 +44,7 @@ export default {
                 API.getActivities,
                 {
                     page: 1,
-                    column: 10
+                    column: 100
                 }
             ).then(res => {
                 if (res.code !== 200) {
