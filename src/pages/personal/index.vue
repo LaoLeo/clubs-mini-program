@@ -1,7 +1,7 @@
 <template>
     <div>
        <header @click="changeImage()">
-           <view class="headimg" :style="{backgroundImage: avatar}"></view>
+           <view class="headimg" :style="{backgroundImage: 'url('+user.picture+')'}"></view>
            <view class="change">点击切换头像</view>
        </header>
 
@@ -37,8 +37,8 @@ export default {
     data() {
         return {
             user: {},
-            current_index: 0,
-            avatar: '../../../static/images/user.jpg'
+            current_index: 0
+            // avatar: '../../../static/images/user.jpg'
         };
     },
 
@@ -48,7 +48,7 @@ export default {
     methods: {
         changeImage() {
             API.chooseImageAndUpload().then((data) => {
-                this.avatar = this.user.picture = data.imageURI
+                this.user.picture = data.imageURI
             })
 
             // wx.chooseImage({

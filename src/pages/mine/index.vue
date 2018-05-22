@@ -18,11 +18,7 @@
         <li class="bd-b" @tap="toMyActivity()">
           <span class="message_left">报名的活动</span>
           <span class="message_right iconfont icon-jiantou"></span>
-        <!-- </li>
-           <li class="bd-b" @tap="toClubAdminPage()">
-          <span class="message_left">管理社团</span>
-          <span class="message_right iconfont icon-jiantou"></span>
-        </li> -->
+        </li>
         <li class="bd-b" v-if="isClubOwn" @tap="toClubAdminPage()">
           <span class="message_left">管理社团</span>
           <span class="message_right iconfont icon-jiantou"></span>
@@ -67,7 +63,7 @@ export default {
         },
         toClubAdminPage() {
             wx.navigateTo({
-                url: '/pages/details/details'
+                url: `/pages/details/details?myClub=1`
             })
         },
         toMyActivity() {

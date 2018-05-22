@@ -2,26 +2,36 @@
     <section class="box" >
         <div v-show="current_index==1" >
             <view>
-                <span class="fs20 scope">活动所属:</span>
-                <input type="text">
+                <div class="headimg">
+                    <div class="picture"  :style="{backgroundImage:'url('+club.picture+')'}"></div>
+                    <div class="club_name">
+                           <view class="name">{{club.name}}</view>
+                    </div>
+                </div>
             </view>
+            <picker :value="index" :range="pickerRange" @change="bindPickerChange($event)">
+                <view class="picker">
+                报名类型：{{pickerRange[activiy.type]}}
+                </view>
+            </picker>
             <view>
                 <span class="fs20 title">活动标题:</span>
-                <input type="text">
+                <input type="text" v-model="activiy.title">
             </view>
             <view>
                 <span class="fs20 content">活动内容:</span>
-                <textarea name="" id="" class="writeContent" ></textarea>
+                <textarea name="" id="" class="writeContent" v-model="activiy.content"></textarea>
             </view>
             <view style="margin-top: 12px;">
-                <span class="fs20 content">上传图片: </span><span class="upload iconfont icon-tupian"></span>
+                <span class="fs20 content">上传海报: </span><span class="upload iconfont icon-tupian"></span>
                 <ul class="picture">
                     <li class="add iconfont icon-tianjia" @click="uploadImage()"></li>
-                    <li class="add" :style="{backgroundImage:'url('+item+')'}" v-for="item in imageUrl"></li>
+                    <li class="add" :style="{backgroundImage:'url('+item+')'}" v-for="item in imageUrl" :key="item"></li>
                 </ul>
             </view>
-            <view>
-                <div class="release">发布活动</div>
+            <view class="btn-group">
+                <div class="release" @tap="stash()">保存</div>
+                <div class="release" @tap="release()">发布活动</div>
             </view>
         </div>
        <div class="dynamic" v-show="current_index==2">
@@ -37,11 +47,25 @@
 
 </template>
 <script>
+import store from '@/store'
+import * as API from '@/utils/api'
+import { showErrorModel } from '@/utils'
+import type from '@/utils/mutitionsType'
+
 export default {
     data() {
         return {
+            club: {},
+            activiy: {
+                type: 0,
+                stash: 0, // 1为存为草稿
+                title: '',
+                content: '',
+                posters: ''
+            },
             current_index: 0,
-            imageUrl: []
+            imageUrl: [],
+            pickerRange: ['不用报名', '允许所有人报名', '仅允许会员报名']
         };
     },
 
@@ -49,17 +73,34 @@ export default {
     },
 
     methods: {
-        uploadImage() {
-            var that = this;
-            wx.chooseImage({
-                count: 1, // 默认9
-                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-                sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-                success: function (res) {
-                    // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-                    var tempFilePaths = res.tempFilePaths
-                    that.imageUrl.push(tempFilePaths[0]);
+        stash() {
+            this.activiy.stash = 1
+            this.release()
+        },
+        release() {
+            this.activiy.posters = JSON.stringify(this.imageUrl)
+            API.request(
+                'post',
+                API.createActivity,
+                Object.assign({}, this.activiy)
+            ).then(res => {
+                if (res.code !== 200) {
+                    showErrorModel(res.code, res.msg)
+                    return
                 }
+
+                store.commit(type.CreateActivity, res.data.activity)
+                store.dispatch(type.GetActivities)
+                // 跳转活动详情
+                showErrorModel('提示', '发布成功')
+            })
+        },
+        bindPickerChange(e) {
+            this.activiy.type = parseInt(e.target.value)
+        },
+        uploadImage() {
+            API.chooseImageAndUpload().then(data => {
+                this.imageUrl.push(data.imageURI)
             })
         }
     },
@@ -68,8 +109,12 @@ export default {
     },
 
     onShow() {
-        this.current_index = this.$root.$mp.query.index;
-        console.log(this.current_index);
+        this.club = store.state.club.info
+        this.current_index = parseInt(this.$root.$mp.query.index)
+
+        if (this.current_index === 2) {
+            wx.setNavigationBarTitle({title: '发表动态'})
+        }
     }
 };
 </script>
@@ -101,7 +146,11 @@ export default {
         resize: none;
 
     }
-    .box .release{
+    .btn-group {
+        display: flex;
+    }
+    .btn-group .release{
+        flex: 1;
         width:120px;
         height:36px;
         text-align: center;
@@ -182,5 +231,30 @@ export default {
         background-size:cover;
         background-position: center center;
 
+    }
+    .headimg{
+        width:100%;
+        height:56px;
+        overflow: hidden;
+    }
+    .headimg .picture{
+        width:50px;
+        height:50px;
+        border-radius: 50%;
+        -webkit-background-size:cover;
+        background-size:cover;
+        border: 1px solid #f0f0f0;
+        float: left;
+    }
+    .club_name{
+        float: left;
+        font-size:14px;
+        margin-left:20px;
+        box-sizing: border-box;
+        padding-top:10px;
+    }
+    .headimg .club_name .name{
+        font-size:14px;
+        color: #000000;
     }
 </style>

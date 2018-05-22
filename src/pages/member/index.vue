@@ -1,26 +1,27 @@
 <template>
   <div class="lists">
-   <div class="list_item bd-b" v-for="(item,index) in list" :key="item.id" >
+    <div class="list_item bd-b" v-for="member in members" :key="member._id" >
         <div class="left" >
-           <div class="club_img" :style="{backgroundImage:'url('+item.imgsrc+')'}"></div>
+        <div class="club_img" :style="{backgroundImage:'url('+member.picture+')'}"></div>
         </div>
-        <div class="right" @click='toDetail(item.id)'>
-            <div class="name">{{item.name}}</div>
-            <div class="slogan">{{item.slogan}}</div>
+        <div class="right">
+            <div class="name">{{member.name}}</div>
+            <div class="slogan">{{member.phone}}</div>
         </div>
     </div>
+    <div v-if="members.length === 0">还没有会员</div>
 
     <view class="notice" @click="add_notice=true">通知</view>
 
 
     <view class="mask" v-show="add_notice"   @click="add_notice=false"  catchtouchmove="preventD">
-        <div class="add_notice" @click.stop="">
+        <div class="add_notice" @click.stop>
                <view class="add_btn">发布通知</view>
                 <view>
-                    <span>标题:<input type="text"></span>
-                    <span>内容:<input type="text"></span>
+                    <span>标题:<input type="text" v-model="notice.title"></span>
+                    <span>内容:<input type="text" v-model="notice.content"></span>
                 </view>
-                <view class="submit"  @click="add_notice=false" >发送</view>
+                <view class="submit"  @click="sendNotice()" >发送</view>
             </div>
     </view>
   </div>
@@ -28,99 +29,76 @@
 
 </template>
 <script>
+import store from '@/store'
+import * as API from '@/utils/api'
+import { showErrorModel } from '@/utils'
+
 export default {
     data() {
         return {
-            list: [
-                {
-                    name: '益力多',
-                    slogan: '18813960131',
-                    imgsrc: '../../static/images/user.jpg',
-                    id: 1
-                },
-                {
-                    name: '小猪佩奇',
-                    slogan: '18813299647',
-                    imgsrc: '../../static/images/user1.jpg',
-                    isfollow: 1,
-                    id: 2
-                },
-                {
-                    name: '益力多',
-                    slogan: '18813299647',
-                    imgsrc: '../../static/images/user.jpg',
-                    id: 3
-                },
-                {
-                    name: '益力多',
-                    slogan: '18813299647',
-                    imgsrc: '../../static/images/user.jpg',
-                    id: 4
-                },
-                {
-                    name: '小猪佩奇',
-                    slogan: '18813299647',
-                    imgsrc: '../../static/images/user1.jpg',
-                    id: 5
-                },
-                {
-                    name: '益力多',
-                    slogan: '18813299647',
-                    imgsrc: '../../static/images/user.jpg',
-                    id: 6
-                },
-                {
-                    name: '益力多',
-                    slogan: '18813960131',
-                    imgsrc: '../../static/images/user.jpg',
-                    id: 1
-                },
-                {
-                    name: '小猪佩奇',
-                    slogan: '18813299647',
-                    imgsrc: '../../static/images/user1.jpg',
-                    isfollow: 1,
-                    id: 2
-                },
-                {
-                    name: '益力多',
-                    slogan: '18813299647',
-                    imgsrc: '../../static/images/user.jpg',
-                    id: 3
-                },
-                {
-                    name: '益力多',
-                    slogan: '18813299647',
-                    imgsrc: '../../static/images/user.jpg',
-                    id: 4
-                },
-                {
-                    name: '小猪佩奇',
-                    slogan: '18813299647',
-                    imgsrc: '../../static/images/user1.jpg',
-                    id: 5
-                },
-                {
-                    name: '益力多',
-                    slogan: '18813299647',
-                    imgsrc: '../../static/images/user.jpg',
-                    id: 6
-                }
-            ],
-            add_notice: false
+            members: [],
+            add_notice: false,
+            aId: '',
+            notice: {
+                title: '',
+                content: ''
+            }
         };
     },
     methods: {
-        // 跳转社团详情页
-        toDetail(id) {
-            wx.navigateTo({
-                url: '/pages/details/details?id=' + id
+        sendNotice() {
+            let clubId = store.state.user.user.clubs_own[0]._id
+
+            this.add_notice = false
+            let data = {
+                clubId,
+                title: this.notice.title,
+                content: this.notice.content,
+                type: 0
+            }
+            if (this.aId) {
+                data.type = 1
+                data.aId = this.aId
+            }
+
+            API.request(
+                'post',
+                API.sendNotice,
+                data
+            ).then(res => {
+                if (res.code !== 200) {
+                    showErrorModel(res.code, res.msg)
+                    return
+                }
+
+                wx.showToast({title: '发送成功'})
             })
         },
         preventD() {
 
         }
 
+    },
+    onShow() {
+        this.aId = this.$root.$mp.query.aId
+        if (!this.aId) {
+            this.members = store.state.club.clubDetail.club.members
+            return
+        }
+
+        API.request(
+            'get',
+            API.getParticipants,
+            {
+                activityId: this.aId
+            }
+        ).then(res => {
+            if (res.code !== 200) {
+                showErrorModel(res.code, res.msg)
+                return
+            }
+            this.members = res.data.participants
+        })
     }
 };
 </script>
