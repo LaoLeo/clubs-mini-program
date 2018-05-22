@@ -137,7 +137,7 @@ export default {
             this.total = store.state.user.activities_total
         })
     },
-    onLoad() {
+    onShow() {
 
     }
 };

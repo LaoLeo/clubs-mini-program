@@ -45,7 +45,7 @@
 
             <!--活动列表-->
             <div class="activity_con" v-show="current_index==2">
-                <div class="activity_item" v-for="activity in club.activities" :key="activity._id">
+                <div class="activity_item" v-for="(activity, aIndex) in club.activities" :key="activity._id">
                     <div @click="toEvent(activity._id)">
                         <div class="activity_top">
                             <div class="club_pic" :style="{backgroundImage: 'url('+ club.picture +')'}">
@@ -56,7 +56,7 @@
                             </div>
                         </div>
                         <div class="activity_bottom" :style="{backgroundImage: 'url('+ activity.posters[0] +')'}"></div>
-                        <button class="btn-delete" @tap.stop="deleteActivity(activity._id, i)">删除</button>
+                        <button class="btn-delete" @tap.stop="deleteActivity(activity._id, aIndex)">删除</button>
                     </div>
                     <div class="sign_up" @click="toSignUpDes(activity._id, activity.participants.length)">
                         <span class="sign_up_member">报名人数:  {{ activity.participants.length }}</span>

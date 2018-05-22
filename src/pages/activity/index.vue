@@ -11,16 +11,16 @@
             </view>
             <picker :value="index" :range="pickerRange" @change="bindPickerChange($event)">
                 <view class="picker">
-                报名类型：{{pickerRange[activiy.type]}}
+                报名类型：{{pickerRange[activity.type]}}
                 </view>
             </picker>
             <view>
                 <span class="fs20 title">活动标题:</span>
-                <input type="text" v-model="activiy.title">
+                <input type="text" v-model="activity.title">
             </view>
             <view>
                 <span class="fs20 content">活动内容:</span>
-                <textarea name="" id="" class="writeContent" v-model="activiy.content"></textarea>
+                <textarea name="" id="" class="writeContent" v-model="activity.content"></textarea>
             </view>
             <view style="margin-top: 12px;">
                 <span class="fs20 content">上传海报: </span><span class="upload iconfont icon-tupian"></span>
@@ -51,12 +51,13 @@ import store from '@/store'
 import * as API from '@/utils/api'
 import { showErrorModel } from '@/utils'
 import type from '@/utils/mutitionsType'
+import { CLUB_ACTIVITY } from "@/utils/config";
 
 export default {
     data() {
         return {
             club: {},
-            activiy: {
+            activity: {
                 type: 0,
                 stash: 0, // 1为存为草稿
                 title: '',
@@ -74,15 +75,28 @@ export default {
 
     methods: {
         stash() {
-            this.activiy.stash = 1
-            this.release()
+            // this.activity.stash = 1
+            // this.release()
+
+            // 保存在本地
+            this.activity.posters = JSON.stringify(this.imageUrl)
+            let activity = JSON.stringify(this.activity)
+            try {
+                wx.setStorageSync(CLUB_ACTIVITY, activity)
+            } catch (e) {
+                console.log('活动存储失败,err：' + e)
+            }
+            wx.showToast({title: '保存成功'})
+            setTimeout(() => {
+                wx.navigateBack()
+            }, 1500)
         },
         release() {
-            this.activiy.posters = JSON.stringify(this.imageUrl)
+            this.activity.posters = JSON.stringify(this.imageUrl)
             API.request(
                 'post',
                 API.createActivity,
-                Object.assign({}, this.activiy)
+                Object.assign({}, this.activity)
             ).then(res => {
                 if (res.code !== 200) {
                     showErrorModel(res.code, res.msg)
@@ -92,11 +106,16 @@ export default {
                 store.commit(type.CreateActivity, res.data.activity)
                 store.dispatch(type.GetActivities)
                 // 跳转活动详情
-                showErrorModel('提示', '发布成功')
+                showErrorModel('提示', '发布成功', '前往', () => {
+                    wx.setStorageSync(CLUB_ACTIVITY, '')
+                    wx.redirectTo({
+                        url: `/pages/events/events?id=${res.data.activity._id}&isParticipate=1`
+                    })
+                })
             })
         },
         bindPickerChange(e) {
-            this.activiy.type = parseInt(e.target.value)
+            this.activity.type = parseInt(e.target.value)
         },
         uploadImage() {
             API.chooseImageAndUpload().then(data => {
@@ -109,11 +128,28 @@ export default {
     },
 
     onShow() {
-        this.club = store.state.club.info
+        this.club = store.state.user.user.clubs_own[0]
         this.current_index = parseInt(this.$root.$mp.query.index)
 
         if (this.current_index === 2) {
             wx.setNavigationBarTitle({title: '发表动态'})
+        } else {
+            try {
+                let record = wx.getStorageSync(CLUB_ACTIVITY)
+                if (!record) return
+
+                let activity = JSON.parse(record)
+                this.activity = {
+                    type: activity.type,
+                    stash: 0, // 1为存为草稿
+                    title: activity.title,
+                    content: activity.content,
+                    posters: activity.posters
+                }
+                this.imageUrl = JSON.parse(this.activity.posters)
+            } catch (e) {
+                console.log(e)
+            }
         }
     }
 };
