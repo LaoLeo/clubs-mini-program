@@ -91,7 +91,6 @@ export default {
     },
     onShow() {
         this.user = this.userState.user
-        console.log(this.user);
     }
 }
 </script>

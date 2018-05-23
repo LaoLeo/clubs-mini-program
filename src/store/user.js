@@ -11,6 +11,7 @@ export default {
         activities_total: 0,
         participate_activities: [],
         dynamics: [],
+        myDynamics: [],
         token: ''
     },
     mutations: {
@@ -42,6 +43,10 @@ export default {
         },
         [type.CreateDynamic](state, data) {
             state.dynamics.unshift(data.dynamic)
+            state.myDynamics.unshift(data.dynamic)
+        },
+        [type.GetMyDynamic](state, data) {
+            state.myDynamics = data.dynamics
         }
     },
     actions: {
@@ -111,6 +116,21 @@ export default {
                 }
                 commit(type.CreateDynamic, res.data)
                 data.cb && data.cb(res.data)
+            })
+        },
+        [type.GetMyDynamic]({commit, state}, cb) {
+            if (state.myDynamics.length > 0) return
+
+            API.request(
+                'get',
+                API.getMyDynamic
+            ).then(res => {
+                if (res.code !== 200) {
+                    showErrorModel(res.code, res.msg)
+                    return
+                }
+                commit(type.GetMyDynamic, res.data)
+                cb && cb(res.data)
             })
         }
     }

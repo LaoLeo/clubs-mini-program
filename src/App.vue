@@ -3,23 +3,22 @@ import * as API from './utils/api.js'
 import type from '@/utils/mutitionsType'
 import { TOKEN } from '@/utils/config'
 import store from '@/store'
-import * as io from 'socket.io-client'
+// import * as io from 'socket.io-client'
 
 export default {
     methods: {
-        connectSocket(userId) {
-            console.log(userId)
-            let socket = io('http://localhost:3000')
-            socket.on('connect', function() {
-                console.log('socket connect success...')
+        // connectSocket(userId) {
+        //     console.log(userId)
+        //     let socket = io('http://localhost:3000')
+        //     socket.on('connect', function() {
+        //         console.log('socket connect success...')
 
-                socket.on(`client@{${userId}}`, function(data) {
-                    console.log(data)
-                })
-            })
-        },
+        //         socket.on(`client@{${userId}}`, function(data) {
+        //             console.log(data)
+        //         })
+        //     })
+        // },
         login(socketFn) {
-            let that = this
             wx.login({
                 success: function(res) {
                     if (res.code) {
@@ -87,9 +86,9 @@ export default {
         try {
             let token = wx.getStorageSync(TOKEN)
             if (!token) {
-                this.login(this.connectSocket)
+                this.login()
             } else {
-                this.getInfo(this.connectSocket)
+                this.getInfo()
             }
         } catch (e) {
             console.log(e)
