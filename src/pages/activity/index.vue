@@ -36,12 +36,12 @@
             </view>
         </div>
        <div class="dynamic" v-show="current_index==2">
-           <textarea placeholder="这一刻，你在想什么..."></textarea>
+           <textarea placeholder="这一刻，你在想什么..." v-model="dynamic.text"></textarea>
            <ul class="picture">
-               <li class="add iconfont icon-tianjia" @click="uploadImage()"></li>
-               <li class="add" :style="{backgroundImage:'url('+item+')'}" v-for="item in imageUrl"></li>
+               <li class="add iconfont icon-tianjia" @click="uploadImage(true)"></li>
+               <li class="add" :style="{backgroundImage:'url('+item+')'}" v-for="item in dynamic.posters" :key="item"></li>
            </ul>
-          <view class="send">发表动态</view>
+          <view class="send" @tap="sendDynamic">发表动态</view>
        </div>
     </section>
 
@@ -68,7 +68,11 @@ export default {
             current_index: 0,
             imageUrl: [],
             pickerRange: ['不用报名', '允许所有人报名', '仅允许会员报名'],
-            user: {}
+            user: {},
+            dynamic: {
+                text: '',
+                posters: []
+            }
         };
     },
 
@@ -76,6 +80,22 @@ export default {
     },
 
     methods: {
+        sendDynamic() {
+            let data = {
+                text: this.dynamic.text,
+                posters: JSON.stringify(this.dynamic.posters),
+                cb: () => {
+                    wx.hideLoading()
+                    wx.showToast({title: '发表成功'})
+                    setInterval(() => {
+                        wx.navigateBack()
+                    })
+                }
+            }
+
+            wx.showLoading({title: '发表中'})
+            store.dispatch(type.CreateDynamic, data)
+        },
         stash() {
             // this.activity.stash = 1
             // this.release()
@@ -119,9 +139,13 @@ export default {
         bindPickerChange(e) {
             this.activity.type = parseInt(e.target.value)
         },
-        uploadImage() {
+        uploadImage(isDdynamic = false) {
             API.chooseImageAndUpload().then(data => {
-                this.imageUrl.push(data.imageURI)
+                if (!isDdynamic) {
+                    this.imageUrl.push(data.imageURI)
+                } else {
+                    this.dynamic.posters.push(data.imageURI)
+                }
             })
         }
     },
@@ -130,12 +154,7 @@ export default {
     },
 
     onShow() {
-        wx.getStorage({
-            key: 'key',
-            success: function(res) {
-                console.log(res.data, '00000000000000')
-            }
-        })
+        this.current_index = parseInt(this.$root.$mp.query.index)
 
         if (this.current_index === 2) {
             wx.setNavigationBarTitle({title: '发表动态'})
