@@ -14,5 +14,6 @@ export default {
     GetParticipateActivities: 'GetParticipateActivities',
     GetDynamics: 'GetDynamics',
     CreateDynamic: 'CreateDynamic',
-    GetMyDynamic: 'GetMyDynamic'
+    GetMyDynamic: 'GetMyDynamic',
+    DeleteDyn: 'DeleteDyn'
 }
