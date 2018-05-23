@@ -19,7 +19,6 @@ export default {
         //     })
         // },
         login(socketFn) {
-            let that = this
             wx.login({
                 success: function(res) {
                     if (res.code) {

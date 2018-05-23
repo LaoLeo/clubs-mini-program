@@ -156,13 +156,16 @@ export default {
             console.log(that.dynamic)
         },
 
-        created() {},
+        created() {
+
+        },
 
         onShow() {
             this.current_index = parseInt(this.$root.$mp.query.index)
 
             // this.current_index = this.$root.$mp.query.index;
             console.log(this.current_index);
+
             if (this.current_index === 2) {
                 wx.setNavigationBarTitle({title: '发表动态'})
             } else {
