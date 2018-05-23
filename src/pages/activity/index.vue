@@ -12,7 +12,7 @@
             </view>
             <picker :value="index" :range="pickerRange" @change="bindPickerChange($event)">
                 <view class="picker">
-                报名类型：{{pickerRange[activity.type]}}
+                报名类型：{{pickerRange[activity.type]}} <span class="iconfont icon-jiantou"></span>
                 </view>
             </picker>
             <view>
@@ -36,12 +36,12 @@
             </view>
         </div>
        <div class="dynamic" v-show="current_index==2">
-           <textarea placeholder="这一刻，你在想什么..."></textarea>
+           <textarea placeholder="这一刻，你在想什么..." v-model="content"></textarea>
            <ul class="picture">
                <li class="add iconfont icon-tianjia" @click="uploadImage()"></li>
-               <li class="add" :style="{backgroundImage:'url('+item+')'}" v-for="item in imageUrl"></li>
+               <li class="add" :style="{backgroundImage:'url('+item+')'}" v-for="item in imageUrl" :key="item" ></li>
            </ul>
-          <view class="send">发表动态</view>
+          <view class="send" @click="send">发表动态</view>
        </div>
     </section>
 
@@ -69,6 +69,7 @@ export default {
             imageUrl: [],
             pickerRange: ['不用报名', '允许所有人报名', '仅允许会员报名'],
             user: {}
+
         };
     },
 
@@ -123,43 +124,57 @@ export default {
             API.chooseImageAndUpload().then(data => {
                 this.imageUrl.push(data.imageURI)
             })
-        }
-    },
+        },
+        // 发表动态
+        send() {
+            let that = this;
+            let time = new Date();
+            console.log(time);
+            console.log(that.dynamic)
+        },
 
-    created() {
-    },
+        created() {
 
-    onShow() {
-        wx.getStorage({
-            key: 'key',
-            success: function(res) {
-                console.log(res.data, '00000000000000')
-            }
-        })
+        },
+        onLoad() {
+            console.log(this.$root.$mp.query);
+            this.current_index = this.$root.$mp.query.index;
+        },
 
-        if (this.current_index === 2) {
-            wx.setNavigationBarTitle({title: '发表动态'})
-        } else {
-            try {
-                let record = wx.getStorageSync(CLUB_ACTIVITY)
-                if (!record) return
-
-                let activity = JSON.parse(record)
-                this.activity = {
-                    type: activity.type,
-                    stash: 0, // 1为存为草稿
-                    title: activity.title,
-                    content: activity.content,
-                    posters: activity.posters
+        onShow() {
+            wx.getStorage({
+                key: 'user',
+                success: function(res) {
+                    console.log(res.data)
                 }
-                this.imageUrl = JSON.parse(this.activity.posters)
-            } catch (e) {
-                console.log(e)
+            })
+
+            this.current_index = this.$root.$mp.query.index;
+
+            if (this.current_index === 2) {
+                wx.setNavigationBarTitle({title: '发表动态'})
+            } else {
+                try {
+                    let record = wx.getStorageSync(CLUB_ACTIVITY)
+                    if (!record) return
+
+                    let activity = JSON.parse(record)
+                    this.activity = {
+                        type: activity.type,
+                        stash: 0, // 1为存为草稿
+                        title: activity.title,
+                        content: activity.content,
+                        posters: activity.posters
+                    }
+                    this.imageUrl = JSON.parse(this.activity.posters)
+                } catch (e) {
+                    console.log(e)
+                }
             }
         }
     }
-};
-</script>
+}
+ </script>
 <style scoped>
     .box{
         width:100%;

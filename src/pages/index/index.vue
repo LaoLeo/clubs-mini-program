@@ -46,7 +46,7 @@
                   <div class="mood">{{item.content}}</div>
                   <div class="photo">
                       <ul>
-                          <li v-for="pic in item.picture" :style="{backgroundImage:'url('+pic+')'}"></li>
+                          <li v-for="pic in item.picture" :key="pic" :style="{backgroundImage:'url('+pic+')'}"></li>
                       </ul>
                   </div>
                   <div class="comments">
@@ -121,6 +121,23 @@ export default {
                 },
                 {
                     id: 2,
+                    name: '一只酸奶牛',
+                    headimg: '../../static/images/user2.jpg',
+                    time: '2018/05/22 21:24',
+                    content: '世界上没有所谓的玩笑，所有的玩笑都带有认真的成分',
+                    picture: [
+                        '../../static/images/lunhua.jpg',
+                        '../../static/images/trip.jpg',
+                        '../../static/images/user.jpg',
+                        '../../static/images/user2.jpg',
+                        '../../static/images/user1.jpg'
+
+                    ],
+                    praise: 6,
+                    comment: 5
+                },
+                {
+                    id: 3,
                     name: '优益CCCCCCC',
                     headimg: '../../static/images/user2.jpg',
                     time: '2018/05/22 21:24',
@@ -161,17 +178,28 @@ export default {
                 that.praise++;
                 that.isPrais = 0;
             }
+        },
+        formatDate (now) {
+            var year = now.getYear();
+            var month = now.getMonth() + 1;
+            var date = now.getDate();
+            var hour = now.getHours();
+            var minute = now.getMinutes();
+            var second = now.getSeconds();
+            year + "-" + month + "-" + date + " " + hour + ":" + minute + ":" + second;
         }
     },
     created() {
         store.dispatch(type.GetActivities, () => {
             this.activities = store.state.user.activities
+
             this.total = store.state.user.activities_total
         })
     },
     onShow() {
 
     }
+
 };
 </script>
 
