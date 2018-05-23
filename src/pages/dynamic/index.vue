@@ -1,52 +1,25 @@
 <template>
   <div>
-      <header>
-          <div class="search iconfont icon-sousuo"></div>
-          <div class="tab">
-              <div class="activity" :class="{ active: current_index == 1}"  @click="change(1)">活动</div>
-              <div class="dynamic"  @click="change(2)" :class="{ active: current_index == 2}">动态</div>
-          </div>
-          <div class="edit iconfont icon-bianji" :class="{'hidden': current_index==1 && !user.isClubOwner}"  @click="addActivity()"></div>
-      </header>
-      <div class="bg"></div>
 
       <section>
-          <!--活动-->
-          <div class="box" v-for="(item, index) in activities" :key="item._id" v-show="current_index==1" @click="toEvent(index)">
-                <div class="headimg">
-                    <div class="picture" v-if="item.author.picture" :style="{backgroundImage:'url('+item.author.picture+')'}">  </div>
-                          <div class="picture" v-else style="background-image: url(../../static/images/avatar.gif);">  </div>
-                    <div class="club_name">
-                           <view class="name">{{item.author.name}}</view>
-                           <view class="date"> {{item.meta.updateDate}}</view>
-                    </div>
-                </div>
-                <div class="content"  v-if="item.posters[0]" :style="{backgroundImage:'url('+item.posters[0]+')'}">
-                     <view class="message">{{item.title}}</view>
-                </div>
-                  <div class="content"  v-else style="background-image: url(../../static/images/bg.jpg);">
-                     <view class="message">{{item.title}}</view>
-                </div>
-                <div class="description">{{item.content}}</div>
-          </div>
 
           <!--动态-->
-          <div class="box" v-for="item in dymanics" :key="item._id"  v-show="current_index==2">
+          <div class="box" v-for="(item,index) in dymanic" :key="item.id"  v-show="current_index==2">
               <div class="headimg">
-                  <div class="picture" :style="{backgroundImage:'url('+item.user.picture+')'}">
+                  <div class="picture" :style="{backgroundImage:'url('+item.headimg+')'}">
 
                   </div>
 
                   <div class="club_name">
-                      <view class="name">{{item.user.name}}</view>
-                      <view class="date">{{item.createDate}}</view>
+                      <view class="name">{{item.name}}</view>
+                      <view class="date">{{item.time}}</view>
                   </div>
               </div>
               <div class="content1" >
-                  <div class="mood">{{item.text}}</div>
+                  <div class="mood">{{item.content}}</div>
                   <div class="photo">
                       <ul>
-                          <li v-for="pic in item.posters" :key="pic" :style="{backgroundImage:'url('+pic+')'}"></li>
+                          <li v-for="pic in item.picture" :key="pic" :style="{backgroundImage:'url('+pic+')'}"></li>
                       </ul>
                   </div>
                   <div class="comments">
@@ -62,6 +35,31 @@
                   </div>
               </div>
           </div>
+          <!-- <div class="box"  v-show="current_index==2" >
+              <div class="headimg">
+                  <div class="picture" style="background-image: url(../../static/images/user.jpg);">
+
+                  </div>
+                  <div class="club_name">
+                      <view class="name">一只酸奶牛</view>
+                      <view class="date">2018/03/22</view>
+                  </div>
+              </div>
+              <div class="content1" >
+                  <div class="mood">今天怎么不开心今天怎么不开心今天怎么不开心今天怎么不开心</div>
+                  <div class="photo">
+                      <ul>
+                          <li v-for="(index, item) in 5" :key="index">{{index}}</li>
+                      </ul>
+                  </div>
+                  <div class="comments">
+                      <span class="iconfont icon-icon_good"></span>
+                      <span class="good">100</span>
+                      <span class="iconfont icon-pinglun" ></span>
+                      <span>222</span>
+                  </div>
+              </div>
+          </div> -->
       </section>
 
   </div>
@@ -80,22 +78,57 @@ export default {
             current_index: 1,
             praise: 0,
             isPrais: 1,
-            dymanics: []
-        }
+            dymanic: [
+                {
+                    id: 1,
+                    name: '酸奶益力多',
+                    headimg: '../../static/images/user2.jpg',
+                    time: '2018/05/22 21:24',
+                    content: '生活需要点仪式感。。。',
+                    picture: [
+                        '../../static/images/lunhua.jpg',
+                        '../../static/images/trip.jpg'
+                    ],
+                    praise: 2,
+                    comment: 5
+                },
+                {
+                    id: 2,
+                    name: '一只酸奶牛',
+                    headimg: '../../static/images/user2.jpg',
+                    time: '2018/05/22 21:24',
+                    content: '世界上没有所谓的玩笑，所有的玩笑都带有认真的成分',
+                    picture: [
+                        '../../static/images/lunhua.jpg',
+                        '../../static/images/trip.jpg',
+                        '../../static/images/user.jpg',
+                        '../../static/images/user2.jpg',
+                        '../../static/images/user1.jpg'
+
+                    ],
+                    praise: 6,
+                    comment: 5
+                },
+                {
+                    id: 3,
+                    name: '优益CCCCCCC',
+                    headimg: '../../static/images/user2.jpg',
+                    time: '2018/05/22 21:24',
+                    content: '开心快乐迷迷糊糊的便过去',
+                    picture: [
+                        '../../static/images/lunhua.jpg',
+                        '../../static/images/trip.jpg'
+                    ],
+                    praise: 6,
+                    comment: 5
+                }
+            ] };
     },
     computed: {
     },
     methods: {
         change(index) {
             this.current_index = index;
-
-            if (index === 2 && this.dymanics.length === 0) {
-                wx.showLoading({title: '加载中'})
-                store.dispatch(type.GetDynamics, (data) => {
-                    wx.hideLoading()
-                    this.dymanics = store.state.user.dynamics
-                })
-            }
         },
         addActivity() {
             wx.navigateTo({
