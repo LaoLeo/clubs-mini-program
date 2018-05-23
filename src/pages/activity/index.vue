@@ -154,40 +154,32 @@ export default {
             let time = new Date();
             console.log(time);
             console.log(that.dynamic)
-        },
+        }
+    },
+    onShow() {
+        this.current_index = parseInt(this.$root.$mp.query.index)
 
-        created() {
+        console.log(this.current_index);
+        if (this.current_index === 2) {
+            wx.setNavigationBarTitle({title: '发表动态'})
+        } else {
+            try {
+                let record = wx.getStorageSync(CLUB_ACTIVITY)
+                if (!record) return
 
-        },
-
-        onShow() {
-            this.current_index = parseInt(this.$root.$mp.query.index)
-
-            // this.current_index = this.$root.$mp.query.index;
-            console.log(this.current_index);
-
-            if (this.current_index === 2) {
-                wx.setNavigationBarTitle({title: '发表动态'})
-            } else {
-                try {
-                    let record = wx.getStorageSync(CLUB_ACTIVITY)
-                    if (!record) return
-
-                    let activity = JSON.parse(record)
-                    this.activity = {
-                        type: activity.type,
-                        stash: 0, // 1为存为草稿
-                        title: activity.title,
-                        content: activity.content,
-                        posters: activity.posters
-                    }
-                    this.imageUrl = JSON.parse(this.activity.posters)
-                } catch (e) {
-                    console.log(e)
+                let activity = JSON.parse(record)
+                this.activity = {
+                    type: activity.type,
+                    stash: 0, // 1为存为草稿
+                    title: activity.title,
+                    content: activity.content,
+                    posters: activity.posters
                 }
+                this.imageUrl = JSON.parse(this.activity.posters)
+            } catch (e) {
+                console.log(e)
             }
         }
-
     }
 }
  </script>

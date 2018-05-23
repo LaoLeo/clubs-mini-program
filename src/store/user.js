@@ -47,6 +47,9 @@ export default {
         },
         [type.GetMyDynamic](state, data) {
             state.myDynamics = data.dynamics
+        },
+        [type.DeleteDyn](state, data) {
+            state.myDynamics.splice(data.index, 1)
         }
     },
     actions: {
@@ -131,6 +134,22 @@ export default {
                 }
                 commit(type.GetMyDynamic, res.data)
                 cb && cb(res.data)
+            })
+        },
+        [type.DeleteDyn]({commit}, data) {
+            API.request(
+                'put',
+                API.deleteDynamic,
+                {
+                    dId: data.dId
+                }
+            ).then(res => {
+                if (res.code !== 200) {
+                    showErrorModel(res.code, res.msg)
+                    return
+                }
+                commit(type.DeleteDyn, {index: data.index})
+                data.cb && data.cb(res.data)
             })
         }
     }

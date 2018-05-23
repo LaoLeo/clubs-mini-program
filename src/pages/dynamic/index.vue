@@ -2,7 +2,7 @@
   <div>
       <section>
           <!--动态-->
-          <div class="box" v-for="item in myDynamics" :key="item._id">
+          <div class="box" v-for="(item, index) in myDynamics" :key="item._id">
               <div class="headimg">
                   <div class="picture" :style="{backgroundImage:'url('+item.user.picture+')'}"></div>
 
@@ -11,7 +11,7 @@
                       <view class="date">{{item.createDate}}</view>
                   </div>
 
-                    <div class="delete">删除</div>
+                    <div class="delete" @tap="deleteDyn(item._id, index)">删除</div>
               </div>
               <div class="content1" >
                   <div class="mood">{{item.text}}</div>
@@ -51,6 +51,15 @@ export default {
         }
     },
     methods: {
+        deleteDyn(dId, index) {
+            store.dispatch(type.DeleteDyn, {
+                index,
+                dId,
+                cb: (data) => {
+                    wx.showToast({title: '删除成功'})
+                }
+            })
+        },
         toDetails() {
             wx.navigateTo({
                 url: '/pages/comments/comments'
@@ -73,7 +82,7 @@ export default {
             year + "-" + month + "-" + date + " " + hour + ":" + minute + ":" + second;
         }
     },
-    created() {
+    onLoad() {
         store.dispatch(type.GetMyDynamic, () => {
             this.myDynamics = store.state.user.myDynamics
         })
