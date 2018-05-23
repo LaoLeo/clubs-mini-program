@@ -85,11 +85,12 @@ export default {
                 text: this.dynamic.text,
                 posters: JSON.stringify(this.dynamic.posters),
                 cb: () => {
+                    this.dynamic.text = ''
+                    this.dynamic.posters = []
                     wx.hideLoading()
-                    wx.showToast({title: '发表成功'})
-                    setInterval(() => {
+                    setTimeout(() => {
                         wx.navigateBack()
-                    })
+                    }, 800)
                 }
             }
 

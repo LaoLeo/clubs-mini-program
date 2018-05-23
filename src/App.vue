@@ -18,7 +18,7 @@ export default {
         //         })
         //     })
         // },
-        login(socketFn) {
+        login() {
             wx.login({
                 success: function(res) {
                     if (res.code) {
@@ -46,8 +46,6 @@ export default {
                                             data = data.data
                                             store.commit(type.EDITUSER, data.user)
                                             store.commit(type.SaveXAccessToken, data.token)
-
-                                            socketFn && socketFn(data.user._id)
                                         }
                                     }
                                 })
@@ -59,7 +57,7 @@ export default {
                 }
             });
         },
-        getInfo(socketFn) {
+        getInfo() {
             API.request(
                 'get',
                 API.getUserInfo
@@ -73,8 +71,6 @@ export default {
                     if (res.data.user.clubs_own.length > 0) {
                         store.commit(type.AddClub, res.data.user.clubs_own[0])
                     }
-
-                    socketFn && socketFn(res.data.user._id)
                 }
             })
         }

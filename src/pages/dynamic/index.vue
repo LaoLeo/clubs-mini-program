@@ -2,37 +2,37 @@
   <div>
       <section>
           <!--动态-->
-          <div class="box" v-for="(item, index) in myDynamics" :key="item._id">
-              <div class="headimg">
-                  <div class="picture" :style="{backgroundImage:'url('+item.user.picture+')'}"></div>
+            <div class="box" v-for="(item, index) in myDynamics" :key="item._id">
+                <div class="headimg">
+                    <div class="picture" :style="{backgroundImage:'url('+item.user.picture+')'}"></div>
 
-                  <div class="club_name">
-                      <view class="name">{{item.user.name}}</view>
-                      <view class="date">{{item.createDate}}</view>
-                  </div>
+                    <div class="club_name">
+                        <view class="name">{{item.user.name}}</view>
+                        <view class="date">{{item.createDate}}</view>
+                    </div>
 
                     <div class="delete" @tap="deleteDyn(item._id, index)">删除</div>
-              </div>
-              <div class="content1" >
-                  <div class="mood">{{item.text}}</div>
-                  <div class="photo">
-                      <ul>
-                          <li v-for="pic in item.posters" :key="pic" :style="{backgroundImage:'url('+pic+')'}"></li>
-                      </ul>
-                  </div>
-                  <div class="comments">
-                      <span @click="Prais()">
-                            <span class="iconfont icon-icon_good" :class="{'active':!isPrais}"></span>
-                            <span class="good" >{{praise}}</span>
-                      </span>
+                </div>
+                <div class="content1" >
+                    <div class="mood">{{item.text}}</div>
+                    <div class="photo">
+                        <ul>
+                            <li v-for="pic in item.posters" :key="pic" :style="{backgroundImage:'url('+pic+')'}"></li>
+                        </ul>
+                    </div>
+                    <div class="comments">
+                        <span @click="Prais()">
+                                <span class="iconfont icon-icon_good" :class="{'active':!isPrais}"></span>
+                                <span class="good" >{{praise}}</span>
+                        </span>
 
-                       <span @click="toDetails()" >
-                           <span class="iconfont icon-pinglun" ></span>
-                           <span> 0 </span>
-                       </span>
-                  </div>
-              </div>
-          </div>
+                        <span @click="toDetails()" >
+                            <span class="iconfont icon-pinglun" ></span>
+                            <span> 0 </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
       </section>
 
   </div>
@@ -103,7 +103,6 @@ header{
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
-    position: relative
 }
 .headimg .delete{
 width: 50px;
@@ -171,6 +170,7 @@ section .box{
 
 }
 section .box .headimg{
+    position: relative;
     width:100%;
     height:56px;
     overflow: hidden;

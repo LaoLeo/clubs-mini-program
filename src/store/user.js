@@ -121,9 +121,7 @@ export default {
                 data.cb && data.cb(res.data)
             })
         },
-        [type.GetMyDynamic]({commit, state}, cb) {
-            if (state.myDynamics.length > 0) return
-
+        [type.GetMyDynamic]({commit}, cb) {
             API.request(
                 'get',
                 API.getMyDynamic
