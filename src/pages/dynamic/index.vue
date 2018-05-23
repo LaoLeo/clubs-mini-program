@@ -10,6 +10,8 @@
                       <view class="name">{{item.user.name}}</view>
                       <view class="date">{{item.createDate}}</view>
                   </div>
+
+                    <div class="delete">删除</div>
               </div>
               <div class="content1" >
                   <div class="mood">{{item.text}}</div>
@@ -37,8 +39,8 @@
 </template>
 
 <script>
-import store from "@/store";
-import type from "@/utils/mutitionsType";
+import store from "@/store"
+import type from "@/utils/mutitionsType"
 
 export default {
     data() {
@@ -47,8 +49,6 @@ export default {
             isPrais: 1,
             myDynamics: []
         }
-    },
-    computed: {
     },
     methods: {
         toDetails() {
@@ -94,6 +94,21 @@ header{
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
+    position: relative
+}
+.headimg .delete{
+width: 50px;
+height: 20px;
+text-align: center;
+line-height:20px;
+border-radius: 15px;
+border:1px solid #75b9eb;
+color:#75b9eb;
+position: absolute;
+top: 20px;
+right: 20px;
+font-size: 14px;
+
 }
 header .search{
     width:15%;
