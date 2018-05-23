@@ -15,5 +15,6 @@ export default {
     GetDynamics: 'GetDynamics',
     CreateDynamic: 'CreateDynamic',
     GetMyDynamic: 'GetMyDynamic',
-    DeleteDyn: 'DeleteDyn'
+    DeleteDyn: 'DeleteDyn',
+    AddActivity: 'AddActivity'
 }

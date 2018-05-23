@@ -126,8 +126,10 @@ export default {
                     return
                 }
 
+                console.log(res.data)
                 store.commit(type.CreateActivity, res.data.activity)
-                store.dispatch(type.GetActivities)
+                store.commit(type.AddActivity, res.data)
+                // store.dispatch(type.GetActivities)
                 // 跳转活动详情
                 showErrorModel('提示', '发布成功', '前往', () => {
                     wx.setStorageSync(CLUB_ACTIVITY, '')

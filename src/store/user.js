@@ -50,6 +50,9 @@ export default {
         },
         [type.DeleteDyn](state, data) {
             state.myDynamics.splice(data.index, 1)
+        },
+        [type.AddActivity](state, data) {
+            state.activities.unshift(data.activity)
         }
     },
     actions: {
