@@ -11,7 +11,10 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "child_process": "^1.0.2",
+    "fs": "0.0.1-security",
     "mpvue": "^1.0.1",
+    "socket.io": "^2.1.1",
     "vuex": "^2.3.1"
   },
   "devDependencies": {

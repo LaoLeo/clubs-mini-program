@@ -31,7 +31,7 @@
           </div>
 
           <!--动态-->
-          <div class="box" v-for="(item,index) in dymanics" :key="item._id"  v-show="current_index==2">
+          <div class="box" v-for="item in dymanics" :key="item._id"  v-show="current_index==2">
               <div class="headimg">
                   <div class="picture" :style="{backgroundImage:'url('+item.user.picture+')'}">
 

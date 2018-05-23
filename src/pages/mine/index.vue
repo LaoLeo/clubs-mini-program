@@ -19,6 +19,10 @@
           <span class="message_left">报名的活动</span>
           <span class="message_right iconfont icon-jiantou"></span>
         </li>
+        <li class="bd-b" @tap="toMyDynamic()">
+          <span class="message_left">我的动态</span>
+          <span class="message_right iconfont icon-jiantou"></span>
+        </li>
         <li class="bd-b" v-if="isClubOwn" @tap="toClubAdminPage()">
           <span class="message_left">管理社团</span>
           <span class="message_right iconfont icon-jiantou"></span>
@@ -51,6 +55,11 @@ export default {
         }
     },
     methods: {
+        toMyDynamic() {
+            wx.navigateTo({
+                url: '/pages/dynamic/dynamic'
+            })
+        },
         toDetail() {
             wx.navigateTo({
                 url: '/pages/personal/personal'
@@ -160,10 +169,6 @@ header .right{
 }
 header .right .icon-jiantou{
   font-size:30px;
-}
-section{
-  /* margin-top: 16px; */
-
 }
   section .message{
     width:100%;
