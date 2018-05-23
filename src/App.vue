@@ -86,9 +86,9 @@ export default {
         try {
             let token = wx.getStorageSync(TOKEN)
             if (!token) {
-                // this.login(this.connectSocket)
+                this.login()
             } else {
-                this.getInfo(this.connectSocket)
+                this.getInfo()
             }
         } catch (e) {
             console.log(e)

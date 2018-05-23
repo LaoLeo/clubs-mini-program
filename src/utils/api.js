@@ -31,6 +31,7 @@ export const sendNotice = host + '/notice/create'
 
 export const getDynamics = host + '/dynamic/all'
 export const createDynamic = host + '/dynamic/create'
+export const getMyDynamic = host + '/dynamic/list'
 
 const saveBlobImage = host + '/image/saveBlobUpload'
 
