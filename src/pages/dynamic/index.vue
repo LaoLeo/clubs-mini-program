@@ -4,7 +4,7 @@
       <section>
 
           <!--动态-->
-          <div class="box" v-for="(item,index) in dymanic" :key="item.id"  v-show="current_index==2">
+          <div class="box" v-for="(item,index) in dymanic" :key="item.id" >
               <div class="headimg">
                   <div class="picture" :style="{backgroundImage:'url('+item.headimg+')'}">
 
@@ -14,6 +14,8 @@
                       <view class="name">{{item.name}}</view>
                       <view class="date">{{item.time}}</view>
                   </div>
+
+                    <div class="delete">删除</div>
               </div>
               <div class="content1" >
                   <div class="mood">{{item.content}}</div>
@@ -67,7 +69,7 @@
 
 <script>
 import store from "@/store";
-import type from "@/utils/mutitionsType";
+// import type from "@/utils/mutitionsType";
 
 export default {
     data() {
@@ -75,7 +77,7 @@ export default {
             user: store.state.user,
             activities: [],
             total: 0,
-            current_index: 1,
+
             praise: 0,
             isPrais: 1,
             dymanic: [
@@ -127,14 +129,7 @@ export default {
     computed: {
     },
     methods: {
-        change(index) {
-            this.current_index = index;
-        },
-        addActivity() {
-            wx.navigateTo({
-                url: '/pages/activity/activity?index=' + this.current_index
-            })
-        },
+
         toDetails() {
             wx.navigateTo({
                 url: '/pages/comments/comments'
@@ -163,11 +158,7 @@ export default {
         }
     },
     created() {
-        store.dispatch(type.GetActivities, () => {
-            this.activities = store.state.user.activities
 
-            this.total = store.state.user.activities_total
-        })
     },
     onShow() {
 
@@ -189,6 +180,21 @@ header{
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
+    position: relative
+}
+.headimg .delete{
+width: 50px;
+height: 20px;
+text-align: center;
+line-height:20px;
+border-radius: 15px;
+border:1px solid #75b9eb;
+color:#75b9eb;
+position: absolute;
+top: 20px;
+right: 20px;
+font-size: 14px;
+
 }
 header .search{
     width:15%;
