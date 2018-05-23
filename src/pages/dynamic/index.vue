@@ -1,34 +1,7 @@
 <template>
   <div>
-      <header>
-          <div class="search iconfont icon-sousuo"></div>
-          <div class="tab">
-              <div class="activity" :class="{ active: current_index == 1}"  @click="change(1)">活动</div>
-              <div class="dynamic"  @click="change(2)" :class="{ active: current_index == 2}">动态</div>
-          </div>
-          <div class="edit iconfont icon-bianji" :class="{'hidden': current_index==1 && !user.isClubOwner}"  @click="addActivity()"></div>
-      </header>
-      <div class="bg"></div>
 
       <section>
-          <!--活动-->
-          <div class="box" v-for="(item, index) in activities" :key="item._id" v-show="current_index==1" @click="toEvent(index)">
-                <div class="headimg">
-                    <div class="picture" v-if="item.author.picture" :style="{backgroundImage:'url('+item.author.picture+')'}">  </div>
-                          <div class="picture" v-else style="background-image: url(../../static/images/avatar.gif);">  </div>
-                    <div class="club_name">
-                           <view class="name">{{item.author.name}}</view>
-                           <view class="date"> {{item.meta.updateDate}}</view>
-                    </div>
-                </div>
-                <div class="content"  v-if="item.posters[0]" :style="{backgroundImage:'url('+item.posters[0]+')'}">
-                     <view class="message">{{item.title}}</view>
-                </div>
-                  <div class="content"  v-else style="background-image: url(../../static/images/bg.jpg);">
-                     <view class="message">{{item.title}}</view>
-                </div>
-                <div class="description">{{item.content}}</div>
-          </div>
 
           <!--动态-->
           <div class="box" v-for="(item,index) in dymanic" :key="item.id"  v-show="current_index==2">
