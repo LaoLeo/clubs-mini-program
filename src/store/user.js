@@ -10,6 +10,7 @@ export default {
         activities: [],
         activities_total: 0,
         participate_activities: [],
+        dynamics: [],
         token: ''
     },
     mutations: {
@@ -35,6 +36,12 @@ export default {
         },
         [type.GetParticipateActivities](state, data) {
             state.participate_activities = data.activities
+        },
+        [type.GetDynamics](state, data) {
+            state.dynamics = data.dynamics
+        },
+        [type.CreateDynamic](state, data) {
+            state.dynamics.unshift(data.dynamic)
         }
     },
     actions: {
@@ -70,6 +77,40 @@ export default {
                 }
                 commit(type.GetParticipateActivities, res.data)
                 cb && cb(res.data)
+            })
+        },
+        [type.GetDynamics]({commit}, cb) {
+            API.request(
+                'get',
+                API.getDynamics,
+                {
+                    page: 1,
+                    column: 100
+                }
+            ).then(res => {
+                if (res.code !== 200) {
+                    showErrorModel(res.code, res.msg)
+                    return
+                }
+                commit(type.GetDynamics, res.data)
+                cb && cb(res.data)
+            })
+        },
+        [type.CreateDynamic]({commit}, data) {
+            API.request(
+                'post',
+                API.createDynamic,
+                {
+                    text: data.text,
+                    posters: data.posters
+                }
+            ).then(res => {
+                if (res.code !== 200) {
+                    showErrorModel(res.code, res.msg)
+                    return
+                }
+                commit(type.CreateDynamic, res.data)
+                data.cb && data.cb(res.data)
             })
         }
     }

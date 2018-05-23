@@ -29,6 +29,9 @@ export const deleteCourse = host + '/course/remove'
 
 export const sendNotice = host + '/notice/create'
 
+export const getDynamics = host + '/dynamic/all'
+export const createDynamic = host + '/dynamic/create'
+
 const saveBlobImage = host + '/image/saveBlobUpload'
 
 export const request = (method, url, data = {}, header = {}) => {

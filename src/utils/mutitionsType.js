@@ -11,5 +11,7 @@ export default {
     EDITUSER: 'EDITUSER',
     SaveXAccessToken: 'SaveXAccessToken',
     GetActivities: 'GetActivities',
-    GetParticipateActivities: 'GetParticipateActivities'
+    GetParticipateActivities: 'GetParticipateActivities',
+    GetDynamics: 'GetDynamics',
+    CreateDynamic: 'CreateDynamic'
 }
