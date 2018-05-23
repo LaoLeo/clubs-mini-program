@@ -118,17 +118,28 @@ export default {
                 that.praise++;
                 that.isPrais = 0;
             }
+        },
+        formatDate (now) {
+            var year = now.getYear();
+            var month = now.getMonth() + 1;
+            var date = now.getDate();
+            var hour = now.getHours();
+            var minute = now.getMinutes();
+            var second = now.getSeconds();
+            year + "-" + month + "-" + date + " " + hour + ":" + minute + ":" + second;
         }
     },
     created() {
         store.dispatch(type.GetActivities, () => {
             this.activities = store.state.user.activities
+
             this.total = store.state.user.activities_total
         })
     },
     onShow() {
 
     }
+
 };
 </script>
 

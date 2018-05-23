@@ -12,7 +12,7 @@
             </view>
             <picker :value="index" :range="pickerRange" @change="bindPickerChange($event)">
                 <view class="picker">
-                报名类型：{{pickerRange[activity.type]}}
+                报名类型：{{pickerRange[activity.type]}} <span class="iconfont icon-jiantou"></span>
                 </view>
             </picker>
             <view>
@@ -147,38 +147,47 @@ export default {
                     this.dynamic.posters.push(data.imageURI)
                 }
             })
-        }
-    },
+        },
+        // 发表动态
+        send() {
+            let that = this;
+            let time = new Date();
+            console.log(time);
+            console.log(that.dynamic)
+        },
 
-    created() {
-    },
+        created() {},
 
-    onShow() {
-        this.current_index = parseInt(this.$root.$mp.query.index)
+        onShow() {
+            this.current_index = parseInt(this.$root.$mp.query.index)
 
-        if (this.current_index === 2) {
-            wx.setNavigationBarTitle({title: '发表动态'})
-        } else {
-            try {
-                let record = wx.getStorageSync(CLUB_ACTIVITY)
-                if (!record) return
+            this.current_index = this.$root.$mp.query.index;
 
-                let activity = JSON.parse(record)
-                this.activity = {
-                    type: activity.type,
-                    stash: 0, // 1为存为草稿
-                    title: activity.title,
-                    content: activity.content,
-                    posters: activity.posters
+            if (this.current_index === 2) {
+                wx.setNavigationBarTitle({title: '发表动态'})
+            } else {
+                try {
+                    let record = wx.getStorageSync(CLUB_ACTIVITY)
+                    if (!record) return
+
+                    let activity = JSON.parse(record)
+                    this.activity = {
+                        type: activity.type,
+                        stash: 0, // 1为存为草稿
+                        title: activity.title,
+                        content: activity.content,
+                        posters: activity.posters
+                    }
+                    this.imageUrl = JSON.parse(this.activity.posters)
+                } catch (e) {
+                    console.log(e)
                 }
-                this.imageUrl = JSON.parse(this.activity.posters)
-            } catch (e) {
-                console.log(e)
             }
         }
+
     }
-};
-</script>
+}
+ </script>
 <style scoped>
     .box{
         width:100%;
@@ -241,9 +250,6 @@ export default {
     .box .icon-tupian{
         font-size:30px;
         color:red;
-
-    }
-    .box .dynamic{
 
     }
     .box .dynamic  .send{
