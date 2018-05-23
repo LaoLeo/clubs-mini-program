@@ -74,7 +74,7 @@ export default {
         }
     },
     created() {
-        store.dispatch(type.getMyDynamic, () => {
+        store.dispatch(type.GetMyDynamic, () => {
             this.myDynamics = store.state.user.myDynamics
         })
     }
